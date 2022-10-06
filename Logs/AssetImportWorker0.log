@@ -1,0 +1,291 @@
+Using pre-set license
+Built from '2022.1/staging' branch; Version is '2022.1.14f1 (ff7e140968b4) revision 16743956'; Using compiler version '192829333'; Build Type 'Release'
+OS: 'Windows 11  (10.0.22000) 64bit Professional' Language: 'en' Physical Memory: 32684 MB
+BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1, IsPro: 1
+
+COMMAND LINE ARGUMENTS:
+C:\Program Files\Unity\Hub\Editor\2022.1.14f1\Editor\Unity.exe
+-adb2
+-batchMode
+-noUpm
+-name
+AssetImportWorker0
+-projectPath
+S:/Documents/DrakesAdventure
+-logFile
+Logs/AssetImportWorker0.log
+-srvPort
+56856
+Successfully changed project path to: S:/Documents/DrakesAdventure
+S:/Documents/DrakesAdventure
+[UnityMemory] Configuration Parameters - Can be set up in boot.config
+    "memorysetup-bucket-allocator-granularity=16"
+    "memorysetup-bucket-allocator-bucket-count=8"
+    "memorysetup-bucket-allocator-block-size=33554432"
+    "memorysetup-bucket-allocator-block-count=8"
+    "memorysetup-main-allocator-block-size=16777216"
+    "memorysetup-thread-allocator-block-size=16777216"
+    "memorysetup-gfx-main-allocator-block-size=16777216"
+    "memorysetup-gfx-thread-allocator-block-size=16777216"
+    "memorysetup-cache-allocator-block-size=4194304"
+    "memorysetup-typetree-allocator-block-size=2097152"
+    "memorysetup-profiler-bucket-allocator-granularity=16"
+    "memorysetup-profiler-bucket-allocator-bucket-count=8"
+    "memorysetup-profiler-bucket-allocator-block-size=33554432"
+    "memorysetup-profiler-bucket-allocator-block-count=8"
+    "memorysetup-profiler-allocator-block-size=16777216"
+    "memorysetup-profiler-editor-allocator-block-size=1048576"
+    "memorysetup-temp-allocator-size-main=16777216"
+    "memorysetup-job-temp-allocator-block-size=2097152"
+    "memorysetup-job-temp-allocator-block-size-background=1048576"
+    "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
+    "memorysetup-temp-allocator-size-background-worker=32768"
+    "memorysetup-temp-allocator-size-job-worker=262144"
+    "memorysetup-temp-allocator-size-preload-manager=33554432"
+    "memorysetup-temp-allocator-size-nav-mesh-worker=65536"
+    "memorysetup-temp-allocator-size-audio-worker=65536"
+    "memorysetup-temp-allocator-size-cloud-worker=32768"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gfx=262144"
+Refreshing native plugins compatible for Editor in 123.92 ms, found 5 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Initialize engine version: 2022.1.14f1 (ff7e140968b4)
+[Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/2022.1.14f1/Editor/Data/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path S:/Documents/DrakesAdventure/Assets
+GfxDevice: creating device client; threaded=0; jobified=0
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: AMD Radeon RX 5600 XT (ID=0x731f)
+    Vendor:   ATI
+    VRAM:     6103 MB
+    Driver:   30.0.14023.3004
+Initialize mono
+Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/2022.1.14f1/Editor/Data/Managed'
+Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/2022.1.14f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
+Mono config path = 'C:/Program Files/Unity/Hub/Editor/2022.1.14f1/Editor/Data/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56444
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: C:/Program Files/Unity/Hub/Editor/2022.1.14f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Registered in 0.004318 seconds.
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 115.62 ms, found 5 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  0.665 seconds
+Domain Reload Profiling:
+	ReloadAssembly (665ms)
+		BeginReloadAssembly (67ms)
+			ExecutionOrderSort (0ms)
+			DisableScriptedObjects (0ms)
+			BackupInstance (0ms)
+			ReleaseScriptingObjects (0ms)
+			CreateAndSetChildDomain (1ms)
+		EndReloadAssembly (496ms)
+			LoadAssemblies (65ms)
+			RebuildTransferFunctionScriptingTraits (0ms)
+			SetupTypeCache (109ms)
+				TypeCache.Initialize (108ms)
+					TypeCache.ScanAssembly (107ms)
+				ResolveRequiredComponents (0ms)
+			ReleaseScriptCaches (0ms)
+			RebuildScriptCaches (25ms)
+			SetupLoadedEditorAssemblies (307ms)
+				LogAssemblyErrors (0ms)
+				InitializePlatformSupportModulesInManaged (6ms)
+				SetLoadedEditorAssemblies (8ms)
+				RefreshPlugins (116ms)
+				BeforeProcessingInitializeOnLoad (1ms)
+				ProcessInitializeOnLoadAttributes (136ms)
+				ProcessInitializeOnLoadMethodAttributes (40ms)
+				AfterProcessingInitializeOnLoad (0ms)
+				EditorAssembliesLoaded (0ms)
+			ExecutionOrderSort2 (0ms)
+			AwakeInstancesAfterBackupRestoration (0ms)
+Platform modules already initialized, skipping
+Registering precompiled user dll's ...
+Registered in 0.018602 seconds.
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory doesn't match image S:\Documents\DrakesAdventure\Library\PackageCache\com.unity.visualscripting@1.7.8\Editor\VisualScripting.Core\Dependencies\YamlDotNet\Unity.VisualScripting.YamlDotNet.dll
+Symbol file LoadedFromMemory doesn't match image S:\Documents\DrakesAdventure\Library\PackageCache\com.unity.visualscripting@1.7.8\Editor\VisualScripting.Core\Dependencies\DotNetZip\Unity.VisualScripting.IonicZip.dll
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.01 ms, found 5 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  3.594 seconds
+Domain Reload Profiling:
+	ReloadAssembly (3595ms)
+		BeginReloadAssembly (102ms)
+			ExecutionOrderSort (0ms)
+			DisableScriptedObjects (4ms)
+			BackupInstance (0ms)
+			ReleaseScriptingObjects (0ms)
+			CreateAndSetChildDomain (18ms)
+		EndReloadAssembly (3370ms)
+			LoadAssemblies (1573ms)
+			RebuildTransferFunctionScriptingTraits (0ms)
+			SetupTypeCache (1317ms)
+				TypeCache.Initialize (1314ms)
+					TypeCache.ScanAssembly (1310ms)
+				ResolveRequiredComponents (3ms)
+			ReleaseScriptCaches (1ms)
+			RebuildScriptCaches (43ms)
+			SetupLoadedEditorAssemblies (385ms)
+				LogAssemblyErrors (0ms)
+				InitializePlatformSupportModulesInManaged (5ms)
+				SetLoadedEditorAssemblies (7ms)
+				RefreshPlugins (1ms)
+				BeforeProcessingInitializeOnLoad (92ms)
+				ProcessInitializeOnLoadAttributes (244ms)
+				ProcessInitializeOnLoadMethodAttributes (30ms)
+				AfterProcessingInitializeOnLoad (6ms)
+				EditorAssembliesLoaded (0ms)
+			ExecutionOrderSort2 (0ms)
+			AwakeInstancesAfterBackupRestoration (5ms)
+Platform modules already initialized, skipping
+========================================================================
+Worker process is ready to serve import requests
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.20 seconds
+Refreshing native plugins compatible for Editor in 1.00 ms, found 5 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 3353 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 53 unused Assets / (0.5 MB). Loaded Objects now: 3849.
+Memory consumption went from 0.52 GB to 0.52 GB.
+Total: 3.150300 ms (FindLiveObjects: 0.312200 ms CreateObjectMapping: 0.089000 ms MarkObjects: 2.461300 ms  DeleteObjects: 0.286700 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
+  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+========================================================================
+Received Import Request.
+  Time since last request: 531266.604426 seconds.
+  path: Assets/Prefabs
+  artifactKey: Guid(e77839e7fb56bda47b55eb3f201df5c3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs using Guid(e77839e7fb56bda47b55eb3f201df5c3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '919db70ce9e92ddf8167e47fd3f95aea') in 0.006918 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 2.151152 seconds.
+  path: Assets/Plugins
+  artifactKey: Guid(d2f89fdd14b3453419fc7ad6ca9d91b9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Plugins using Guid(d2f89fdd14b3453419fc7ad6ca9d91b9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7fb40f5516974130adec585758736b29') in 0.005361 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 1.257025 seconds.
+  path: Assets/Plugins/GitHub
+  artifactKey: Guid(94fab7b0a5c50734e98301d6f6fb96a3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Plugins/GitHub using Guid(94fab7b0a5c50734e98301d6f6fb96a3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '21d5db7fe079989fc774c8ce145b1586') in 0.005677 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.721742 seconds.
+  path: Assets/Plugins/GitHub/Editor
+  artifactKey: Guid(cad92998c5182496e8b989b406d9f156) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Plugins/GitHub/Editor using Guid(cad92998c5182496e8b989b406d9f156) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '38d745d3c84c36c9894eaea507fe3b88') in 0.005756 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.097635 seconds.
+  path: Assets/Plugins/GitHub/Editor/big-logo@2x.png
+  artifactKey: Guid(f81094832d834c64d93b198cb16b6a3e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Plugins/GitHub/Editor/big-logo@2x.png using Guid(f81094832d834c64d93b198cb16b6a3e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c08ac5deb8ab5193413402a26ed21bec') in 0.137015 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 5.431697 seconds.
+  path: Assets/Plugins/GitHub/Editor/x64
+  artifactKey: Guid(a0ded7adcc817ce489fec07977f16d13) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Plugins/GitHub/Editor/x64 using Guid(a0ded7adcc817ce489fec07977f16d13) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a33bf6d2b9cfa9b92ca641d2fa9ae321') in 0.005758 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 1.850860 seconds.
+  path: Assets/Plugins/GitHub/Editor/x64/sfw_x64.dll
+  artifactKey: Guid(fe5abeadcbe591e4fa9107fbc02f3998) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Plugins/GitHub/Editor/x64/sfw_x64.dll using Guid(fe5abeadcbe591e4fa9107fbc02f3998) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '165f33de31861ffd663b0a711741dec5') in 0.009891 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 2.793258 seconds.
+  path: Assets/Plugins/GitHub/Editor/x64/pthreadVC2.dll
+  artifactKey: Guid(868fbb4c41814baebc00f96e24ede2f8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Plugins/GitHub/Editor/x64/pthreadVC2.dll using Guid(868fbb4c41814baebc00f96e24ede2f8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '07fb8fe0e5bcd64ef6a976d4cc9b91e7') in 0.005556 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 19.426638 seconds.
+  path: Assets/Plugins/GitHub/Editor/QuickGuide.pdf
+  artifactKey: Guid(d601ecb6855bb432bae2aa49d8fd82e8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Plugins/GitHub/Editor/QuickGuide.pdf using Guid(d601ecb6855bb432bae2aa49d8fd82e8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0541953c8cf3d0da23fed1e31fc6fbf4') in 0.010325 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 377.256717 seconds.
+  path: Assets/Plugins/GitHub/Editor/GitHub.UnityShim.dll
+  artifactKey: Guid(863e1b9976c4e46d29bf83928b3a8ab2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Plugins/GitHub/Editor/GitHub.UnityShim.dll using Guid(863e1b9976c4e46d29bf83928b3a8ab2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '40c2d04a52cee5d247c3cf9dd9824a07') in 0.005640 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 5.140824 seconds.
+  path: Assets/Plugins/GitHub/Editor/GitHub.Api.dll
+  artifactKey: Guid(c743ae24ee231884887054d20ccdd0ae) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Plugins/GitHub/Editor/GitHub.Api.dll using Guid(c743ae24ee231884887054d20ccdd0ae) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '56ff1578b43475b1f845da55ef8ce46b') in 0.005430 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.854089 seconds.
+  path: Assets/Plugins/GitHub/Editor/GitHub.Api.45.dll
+  artifactKey: Guid(c743ae24ee231884887054d20ccdd0ab) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Plugins/GitHub/Editor/GitHub.Api.45.dll using Guid(c743ae24ee231884887054d20ccdd0ab) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0814760835cd7e55a98b685f16d94e8f') in 0.005393 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 1.351843 seconds.
+  path: Assets/Plugins/GitHub/Editor/GitHub.Logging.dll
+  artifactKey: Guid(15ca2bebf173f2d4484686a03a45b56d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Plugins/GitHub/Editor/GitHub.Logging.dll using Guid(15ca2bebf173f2d4484686a03a45b56d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4d5a9e29ec4b185a0afbb39b44c75f61') in 0.005861 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 1.132857 seconds.
+  path: Assets/Plugins/GitHub/Editor/Mono.Posix.dll
+  artifactKey: Guid(ddb8611e748af425a82a497ac5a98c0c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Plugins/GitHub/Editor/Mono.Posix.dll using Guid(ddb8611e748af425a82a497ac5a98c0c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3dfd5edc259abbc98593bdf68f643d64') in 0.005309 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.629127 seconds.
+  path: Assets/Plugins/GitHub/Editor/libsfw.so
+  artifactKey: Guid(21206c65839f84d0e9ae14bc1fdc68db) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Plugins/GitHub/Editor/libsfw.so using Guid(21206c65839f84d0e9ae14bc1fdc68db) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6846cbf6a1294556dfd6d2d5a350af71') in 0.009153 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 63.855275 seconds.
+  path: Assets/Plugins/GitHub/Editor/ExtensionLoader.cs
+  artifactKey: Guid(dae2ecee8a704dd59797e26554ff8606) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Plugins/GitHub/Editor/ExtensionLoader.cs using Guid(dae2ecee8a704dd59797e26554ff8606) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a0e147f7593ad5f9108ed458ed9c42ce') in 0.032435 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 7.850961 seconds.
+  path: Assets/Plugins/GitHub/Editor/UnityAPIWrapper.cs
+  artifactKey: Guid(555cd6f54c03341b1970d950df1a5ee5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Plugins/GitHub/Editor/UnityAPIWrapper.cs using Guid(555cd6f54c03341b1970d950df1a5ee5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '41858814863234cf9ddd8c9fc062925b') in 0.005682 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 3.118341 seconds.
+  path: Assets/Plugins/GitHub/Editor/AsyncBridge.Net35.dll
+  artifactKey: Guid(d516f2a1bec6a9645a084ef8c9237132) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Plugins/GitHub/Editor/AsyncBridge.Net35.dll using Guid(d516f2a1bec6a9645a084ef8c9237132) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '216090bdf5be0faceee3aa878b562384') in 0.005348 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 1.427969 seconds.
+  path: Assets/Plugins/GitHub/Editor/x86
+  artifactKey: Guid(99b48d4d4f6a66340ab06bd487d70a45) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Plugins/GitHub/Editor/x86 using Guid(99b48d4d4f6a66340ab06bd487d70a45) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b29e380167833c9db3abe2dfb262b144') in 0.005573 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 1.593187 seconds.
+  path: Assets/Plugins/GitHub/Editor/x86/sfw_x86.dll
+  artifactKey: Guid(a83159a46d87d2a4f8cec651049b9231) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Plugins/GitHub/Editor/x86/sfw_x86.dll using Guid(a83159a46d87d2a4f8cec651049b9231) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8d710a00f4ad9d2c67c7c6a44350de44') in 0.005374 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 1.398607 seconds.
+  path: Assets/Plugins/GitHub/Editor/x86/pthreadVC2.dll
+  artifactKey: Guid(151a1d946b98deb4b98445400983ba92) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Plugins/GitHub/Editor/x86/pthreadVC2.dll using Guid(151a1d946b98deb4b98445400983ba92) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7ae7a96ae52e389240d81ead1d2ad6fe') in 0.005198 seconds 
