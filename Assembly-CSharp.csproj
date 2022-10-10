@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{B6858742-7E0B-932C-9F19-F55A6B60EEF5}</ProjectGuid>
+    <ProjectGuid>{021D8841-31A4-F629-A8EB-7F9C1EE75489}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -99,14 +99,14 @@
     <Compile Include="Assets\Pixel Dogs\Scripts\ItemCannon.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexColorCycler.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TeleType.cs" />
+    <Compile Include="Assets\Scripts\Notification.cs" />
     <Compile Include="Assets\2D Progress Bar Toolkit\Scripts\ClassicProgressBar.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexZoom.cs" />
     <Compile Include="Assets\Pixel Dogs\Scripts\DogDatabase.cs" />
+    <Compile Include="Assets\Scripts\NotificationCenter.cs" />
     <Compile Include="Assets\Pixel Dogs\Scripts\ObsticleDetection.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01.cs" />
     <Compile Include="Assets\Pixel Dogs\Scripts\PixelPerfectCameraScript.cs" />
-    <Compile Include="Assets\Scripts\Notification.cs" />
-    <Compile Include="Assets\Scripts\NotificationCenter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

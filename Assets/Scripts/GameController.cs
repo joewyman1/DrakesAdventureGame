@@ -14,6 +14,7 @@ public class GameController : ScriptableObject
     public int Level { get { return _level; } }
     public int NewLevel {
         get {
+            nc = NotificationCenter.Instance;
             nc.PostNotification(new Notification("NewLevel"));
             _level += 1;
             _livesLeft = 5;
@@ -45,7 +46,6 @@ public class GameController : ScriptableObject
     {
         _level = 1;
         _lives = 5;
-        nc = NotificationCenter.Instance;
         _livesLeft = 5;
     }
 
@@ -55,6 +55,7 @@ public class GameController : ScriptableObject
         _livesLeft = _livesLeft - num;
         if(_livesLeft == 0)
         {
+            nc = NotificationCenter.Instance;
             nc.PostNotification(new Notification("Dead"));
         }
     }

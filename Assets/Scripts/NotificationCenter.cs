@@ -15,7 +15,7 @@ namespace Notifications
             {
                 if (_instance == null)
                 {
-                    _instance = new NotificationCenter();
+                    _instance = ScriptableObject.CreateInstance<NotificationCenter>();
                 }
                 return _instance;
             }

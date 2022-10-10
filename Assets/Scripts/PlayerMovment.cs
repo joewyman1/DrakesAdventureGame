@@ -19,8 +19,14 @@ public class PlayerMovment : MonoBehaviour
     private int _health;
     private Rigidbody2D rb;
     private Animator anim;
+
     public TMP_Text lives;
     public TMP_Text level;
+
+    private GameObject levelSprite;
+
+    private Dictionary<int, GameObject> hearts;
+
     public GameObject player;
 
 
@@ -34,12 +40,12 @@ public class PlayerMovment : MonoBehaviour
         ///Health and lives setup 
         _health = GameController.Instance.Lives;
 
-        level.text = "Level " + GameController.Instance.Level;
-        lives.text = GameController.Instance.LivesLeft + " Lives Left...";
+        hearts = populateHearts();
+        liveSprite = GameObject.FindWithTag("Level");
         _health = GameController.Instance.Lives;
 
         //Observers
-        NotificationCenter.Instance.AddObserver("Dead", (Action<Notifications.Notification>) OnDeath);
+        NotificationCenter.Instance.AddObserver("Dead",  OnDeath);
     }
 
     // Update is called once per frame
@@ -82,7 +88,7 @@ public class PlayerMovment : MonoBehaviour
             }
             else
             {
-                lives.text = GameController.Instance.LivesLeft + " Lives Left...";
+                levelSprite
             }
         }
 
@@ -115,6 +121,15 @@ public class PlayerMovment : MonoBehaviour
 
        
     }
+    private void populateHarts()
+    {
+        Dictionary<int, GameObject> temp = new Dictionary<int, GameObject>;
+        for(int i = 1; i<4; i++)
+        {
+            temp.Add(GameObject.FindWithTag(i, "Heart" + i);
+        }
+        return temp;
+    }
     /**
     private void startLay()
     {
@@ -138,9 +153,9 @@ public class PlayerMovment : MonoBehaviour
         
     } 
     **/
-    private void OnDeath()
+    private void OnDeath(Notification notification)
     {
-
+        //Restart Game
     }
     private bool checkAnimState(string name)
     {

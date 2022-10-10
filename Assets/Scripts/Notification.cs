@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace Notifications
 {
-    public class Notification : ScriptableObject
+    public class Notification 
     {
         public String Name { get; set; }
         public System.Object Object { get; set; }
