@@ -1,3 +1,56 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:dc60019b1893549fefb349bc077b6b870782a781409e5ed98370cc24f3e8d348
-size 1330
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using Notifications;
+
+public class Pause : MonoBehaviour
+{
+    public GameObject Menu;
+    // Start is called before the first frame update
+    void Start()
+    {
+        Cursor.visible = false;
+        NotificationCenter.Instance.AddObserver("MenuActive", openMenu);
+        NotificationCenter.Instance.AddObserver("MenuDeactivate", closeMenu);
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (!Menu.activeSelf)
+            {
+                Time.timeScale = 0f;
+                Menu.SetActive(true);
+                Cursor.visible = true;
+            }
+            else
+            {
+                Time.timeScale = 1f;
+                Menu.SetActive(false);
+                Cursor.visible = false;
+            }
+        }
+    }
+
+    public void quit()
+    {
+        Application.Quit();
+    }
+
+    public void resume()
+    {
+        Time.timeScale = 1f;
+        Menu.SetActive(false);
+        Cursor.visible = false;
+    }
+    private void openMenu(Notification no)
+    {
+        Cursor.visible = true;
+    }
+    private void closeMenu(Notification no)
+    {
+        Cursor.visible = false;
+    }
+}

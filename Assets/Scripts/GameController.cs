@@ -1,3 +1,68 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:5f1b41d49d60b78691fae84f99bd1b2aa7066f2dd0fae255be2d2823930b4770
-size 1578
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using TMPro;
+using Notifications;
+
+
+public class GameController 
+{
+   
+    public GameObject game;
+    public int Level { get { return _level; } }
+    public int NewLevel {
+        get {
+            nc.PostNotification(new Notification("NewLevel"));
+            _level += 1;
+            _livesLeft = 3;
+            return _level;
+        } }
+    public int Lives { get { return _lives; } }
+    public int LivesLeft { get { return _livesLeft; } }
+    private int _level;
+    private int _lives;
+    private int _livesLeft;
+    private static GameController _instance = null;
+    private NotificationCenter nc;
+
+    public static GameController Instance
+    {
+        get
+        {
+            if(_instance == null)
+            {
+                _instance = new GameController();
+            }
+            return _instance;
+        }
+    }
+    
+    public GameController()
+    {
+        _level = 1;
+        _lives = 3;
+        _livesLeft = 3;
+        nc = NotificationCenter.Instance;
+    }
+
+    public void Destroy()
+    {
+        _instance = null;
+    }
+    public void LessLife(int num)
+    {
+        
+        _livesLeft = _livesLeft - num;
+        nc.PostNotification(new Notification("LessLife"));
+        if (_livesLeft == 0)
+        {
+            nc = NotificationCenter.Instance;
+            nc.PostNotification(new Notification("Dead"));
+        }
+    }
+
+    
+    
+}

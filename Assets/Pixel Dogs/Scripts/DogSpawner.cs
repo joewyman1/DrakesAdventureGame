@@ -1,3 +1,22 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:5ec655890e36f7a8bb81038b00f64846f8b43616c1ea99bc68ecb87815d81f26
-size 562
+﻿using UnityEngine;
+using System.Collections;
+
+public class DogSpawner : MonoBehaviour
+{
+    DogDatabase database;
+    // Use this for initialization
+	void Start ()
+    {
+        database = GameObject.FindGameObjectWithTag("DogDatabase").GetComponent<DogDatabase>();
+        SpawnDog(Random.Range(0,8));
+	}
+	
+	void SpawnDog (int iD)
+    {
+
+        GameObject newDog = Instantiate(database.dogDatabase[iD].dogObject, this.transform.position, Quaternion.identity) as GameObject;
+
+        //assign name
+        newDog.name = "Fido";
+    }
+}

@@ -1,3 +1,35 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:a35b62507f89edf5fbae3b6b77a197aa516b2ce90c570b80b75dd85aeb91ebf1
-size 715
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using Notifications;
+
+using UnityEngine.SceneManagement;
+
+public class FinshLine : MonoBehaviour
+{
+    private GameController gc;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        gc = GameController.Instance;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            NotificationCenter.Instance.PostNotification(new Notification("PlayerExit"));
+            
+            
+            
+        }
+    }
+
+}
+

@@ -1,3 +1,27 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:810609961d7fa291d655c18e9ee1a601deea2e79bccdd9d2d7b1d07a8cc35d7c
-size 761
+﻿using UnityEngine;
+
+public class ItemCannon : MonoBehaviour {
+
+    public Animator animator;
+    public GameObject itemPrefab;
+    public float force = 600.0f;
+	
+	public GameObject Fire()
+    {
+        // Instantiate the item
+        GameObject item = Instantiate(itemPrefab, this.transform.position, Quaternion.identity) as GameObject;
+        item.name = "Ball";
+
+        // Add force to its rigidbody
+        Rigidbody2D rb = item.GetComponent<Rigidbody2D>();
+        Vector2 direction = new Vector2(350, 100).normalized;
+        rb.AddForce(direction * force);
+
+        item.GetComponent<SpriteRenderer>().sortingOrder = 1;
+
+        // Animate the cannon firing
+        animator.SetTrigger("Fire");
+
+        return item;
+    }
+}

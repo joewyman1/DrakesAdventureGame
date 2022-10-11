@@ -1,3 +1,30 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:8222211f9cdaccd7dc83e43bb0b9e9892962f04c75f109c02d8147b3ab5b8aac
-size 730
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using Notifications;
+public class MenuCode : MonoBehaviour
+{
+    private NotificationCenter nc;
+    // Start is called before the first frame update
+    void Start()
+    {
+        nc = NotificationCenter.Instance;
+        nc.PostNotification(new Notification("MenuActive"));
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+
+    public void onClickStart()
+    {
+        NotificationCenter.Instance.PostNotification(new Notification("Start"));
+        nc.PostNotification(new Notification("MenuDectivate"));
+    }
+   public  void onClickQuit()
+    {
+        Application.Quit();
+    }
+}

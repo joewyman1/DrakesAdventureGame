@@ -1,3 +1,85 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:26f36302b08b854b575d98fca844515091be3748a932b2253b6e60f41fad7b08
-size 2507
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace Notifications
+{
+    public class NotificationCenter : ScriptableObject
+    {
+        private Dictionary<String, EventContainer> observers;
+        private static NotificationCenter _instance;
+        public static NotificationCenter Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = ScriptableObject.CreateInstance<NotificationCenter>();
+                }
+                return _instance;
+            }
+        }
+        public NotificationCenter()
+        {
+            observers = new Dictionary<String, EventContainer>();
+        }
+
+        private class EventContainer
+        {
+            private event Action<Notification> Observer;
+            public EventContainer()
+            {
+            }
+
+            public void AddObserver(Action<Notification> observer)
+            {
+                Observer += observer;
+            }
+
+            public void RemoveObserver(Action<Notification> observer)
+            {
+                Observer -= observer;
+            }
+
+            public void SendNotification(Notification notification)
+            {
+                Observer(notification);
+            }
+
+            public bool IsEmpty()
+            {
+                return Observer == null;
+            }
+        }
+
+        public void AddObserver(String notificationName, Action<Notification> observer)
+        {
+            if (!observers.ContainsKey(notificationName))
+            {
+                observers[notificationName] = new EventContainer();
+            }
+            observers[notificationName].AddObserver(observer);
+        }
+
+        public void RemoveObserver(String notificationName, Action<Notification> observer)
+        {
+            if (observers.ContainsKey(notificationName))
+            {
+                observers[notificationName].RemoveObserver(observer);
+                if (observers[notificationName].IsEmpty())
+                {
+                    observers.Remove(notificationName);
+                }
+            }
+        }
+
+        public void PostNotification(Notification notification)
+        {
+            if (observers.ContainsKey(notification.Name))
+            {
+                observers[notification.Name].SendNotification(notification);
+            }
+        }
+    }
+}
