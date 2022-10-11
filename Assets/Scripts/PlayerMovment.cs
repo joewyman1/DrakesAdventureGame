@@ -23,9 +23,9 @@ public class PlayerMovment : MonoBehaviour
     public TMP_Text lives;
     public TMP_Text level;
 
- 
 
 
+    private Color orgColor;
 
     public GameObject player;
 
@@ -160,7 +160,7 @@ public class PlayerMovment : MonoBehaviour
     }
     private void NewLevel(Notification nc)
     {
-       
+        player = GameObject.FindGameObjectWithTag("Player");
 
         GameObject rPoint = GameObject.FindGameObjectWithTag("Respawn");
         Transform spawn = rPoint.transform;
@@ -186,9 +186,11 @@ public class PlayerMovment : MonoBehaviour
         if (other.gameObject.CompareTag("Ground"))
         {
             IsJumping = false;
-        }else if (other.gameObject.CompareTag("Pain"))
+        }else if (other.gameObject.CompareTag("Pain")|| other.gameObject.CompareTag("Enemy"))
         {
+            orgColor = GetComponent<SpriteRenderer>().color;
             gc.LessLife(1);
+            GetComponent<SpriteRenderer>().color = Color.red;
 
             rb.AddForce(new Vector2(rb.velocity.x, 400));
 
@@ -199,6 +201,10 @@ public class PlayerMovment : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Ground"))
         {
+            if (GetComponent<SpriteRenderer>().color == Color.red)
+            {
+                GetComponent<SpriteRenderer>().color = orgColor;
+            }
             IsJumping = true;
         }
     }

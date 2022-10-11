@@ -90,12 +90,7 @@ public class LevelManager : MonoBehaviour
     void newLevel(Notification noti)
     {
         
-        foreach (GameObject heart in hearts)
-        {
-
-            heart.SetActive(true);
-            
-        }
+        //New Level Action
 
     }
     void goMenu(Notification noti)
