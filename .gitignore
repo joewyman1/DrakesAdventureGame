@@ -1,0 +1,15 @@
+
+/Library/
+/Build/
+/Builds/
+/Logs/
+/Recordings/
+
+# Builds
+*.apk
+*.aab
+*.unitypackage
+*.app
+
+# Crashlytics generated file
+crashlytics-build.properties
