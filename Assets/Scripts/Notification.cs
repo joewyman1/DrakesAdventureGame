@@ -1,31 +1,3 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-namespace Notifications
-{
-    public class Notification 
-    {
-        public String Name { get; set; }
-        public System.Object Object { get; set; }
-        public Dictionary<String, System.Object> userInfo { get; set; }
-        public Notification() : this("NotificationName")
-        {
-        }
-
-        public Notification(String name) : this(name, null)
-        {
-        }
-
-        public Notification(String name, System.Object obj) : this(name, obj, null)
-        {
-        }
-
-        public Notification(String name, System.Object obj, Dictionary<String, System.Object> userInfo)
-        {
-            this.Name = name;
-            this.Object = obj;
-            this.userInfo = userInfo;
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:82fe476a1a423077ffdd33ee6a4f2832e3f18118f605c6631320078583386131
+size 848
