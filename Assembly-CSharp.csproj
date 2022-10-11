@@ -65,6 +65,7 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeB.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\EnvMapAnimator.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_UiFrameRateCounter.cs" />
+    <Compile Include="Assets\Scripts\StartButton.cs" />
     <Compile Include="Assets\Pixel Dogs\Scripts\Ball.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\CameraController.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMPro_InstructionOverlay.cs" />
@@ -86,12 +87,14 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark03.cs" />
     <Compile Include="Assets\Pixel Dogs\Scripts\UICommands.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_FrameRateCounter.cs" />
+    <Compile Include="Assets\Scripts\ButtonCode.cs" />
     <Compile Include="Assets\Pixel Dogs\Scripts\Dog.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexJitter.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextEventHandler.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextSelector_B.cs" />
     <Compile Include="Assets\Scripts\FinshLine.cs" />
     <Compile Include="Assets\Pixel Dogs\Scripts\DogBehaviour.cs" />
+    <Compile Include="Assets\Scripts\LevelManager.cs" />
     <Compile Include="Assets\2D Progress Bar Toolkit\Scripts\CircularProgressBar.cs" />
     <Compile Include="Assets\Pixel Dogs\Scripts\DogSpawner.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\DropdownSample.cs" />
@@ -102,6 +105,7 @@
     <Compile Include="Assets\Scripts\Notification.cs" />
     <Compile Include="Assets\2D Progress Bar Toolkit\Scripts\ClassicProgressBar.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexZoom.cs" />
+    <Compile Include="Assets\Scripts\MenuCode.cs" />
     <Compile Include="Assets\Pixel Dogs\Scripts\DogDatabase.cs" />
     <Compile Include="Assets\Scripts\NotificationCenter.cs" />
     <Compile Include="Assets\Pixel Dogs\Scripts\ObsticleDetection.cs" />
