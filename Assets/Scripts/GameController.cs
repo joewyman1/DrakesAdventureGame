@@ -47,9 +47,9 @@ public class GameController
         _lives = 3;
         _livesLeft = 3;
         nc = NotificationCenter.Instance;
-        nc.AddObserver("Coin", AddCoin);
+        _coinCount = 0;
     }
-    private void AddCoin(Notification nc)
+    public void AddCoin()
     {
         _coinCount += 1;
     }

@@ -35,7 +35,7 @@ public class PlayerMovment : MonoBehaviour
     private GameObject ballPopup;
     private GameObject ballIcon;
     private GameObject coinIcon;
-    private TMP_Text coinText;
+
 
     // Start is called before the first frame update
     void Awake()
@@ -158,7 +158,7 @@ public class PlayerMovment : MonoBehaviour
         ballIcon = GameObject.FindGameObjectWithTag("ballIcon");
         coinIcon = GameObject.FindGameObjectWithTag("coinIcon");
 
-        coinText.text = "x" + gc.Coins;
+
         
         ballIcon.SetActive(false);
         ballPopup = GameObject.FindGameObjectWithTag("HUD").transform.Find("BallPopup").gameObject;

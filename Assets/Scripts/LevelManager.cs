@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Notifications;
 using UnityEngine.SceneManagement;
-using TMPro;
+using UnityEngine.UI;
 
 public class LevelManager : MonoBehaviour
 {
@@ -14,7 +14,7 @@ public class LevelManager : MonoBehaviour
     private GameObject ballIcon;
 
     private GameObject coinIcon;
-    private TMP_Text coinCount;
+    private Text coinCount;
 
     // Start is called before the first frame update
     void Start()
@@ -24,7 +24,7 @@ public class LevelManager : MonoBehaviour
         ballIcon = GameObject.FindGameObjectWithTag("ballIcon");
 
         ballIcon.SetActive(false);
-  
+        
         hearts = new GameObject[3];
         for (int i = 1; i < 4; i++)
         {
@@ -35,8 +35,8 @@ public class LevelManager : MonoBehaviour
 
             temp.SetActive(false);
         }
-        
-        
+
+        SceneManager.sceneLoaded += onLevelLoaded;
        
         nc = NotificationCenter.Instance;
        
@@ -59,9 +59,19 @@ public class LevelManager : MonoBehaviour
     void coinHandler(Notification nc)
     {
         coinIcon = GameObject.FindGameObjectWithTag("coinIcon");
-        coinCount = coinIcon.GetComponent<TextMeshPro>();
+        coinCount = coinIcon.transform.GetChild(0).gameObject.GetComponent<Text>();
+        gc.AddCoin();
 
         coinCount.text = "x" + gc.Coins;
+    }
+    void onLevelLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name.StartsWith("Level"))
+        {
+            coinIcon = GameObject.FindGameObjectWithTag("coinIcon");
+            coinCount = coinIcon.transform.GetChild(0).gameObject.GetComponent<Text>();
+            coinCount.text = "x" + gc.Coins;
+        }
     }
     void onExit(Notification noti)
     {
@@ -70,9 +80,8 @@ public class LevelManager : MonoBehaviour
      
             SceneManager.LoadScene("Level " + (gc.NewLevel));
             coinIcon = GameObject.FindGameObjectWithTag("coinIcon");
-            coinCount = coinIcon.transform.GetChild(0).gameObject.GetComponent<TMP_Text>();
-
-            coinCount.text = "x" + gc.Coins;
+            coinCount =coinIcon.transform.GetChild(0).gameObject.GetComponent<Text>();
+            
 
         }
         else if (SceneManager.sceneCountInBuildSettings -2  == gc.Level)
@@ -87,18 +96,15 @@ public class LevelManager : MonoBehaviour
         gc = GameController.Instance;
         SceneManager.LoadScene("Level 1");
 
-        coinIcon = GameObject.FindGameObjectWithTag("coinIcon");
-        coinCount = coinIcon.transform.GetChild(0).gameObject.GetComponent<TMP_Text>();
-
-        coinCount.text = "x" + gc.Coins;
+        
         foreach (GameObject heart in hearts)
         {
 
             heart.SetActive(true);
 
         }
-        
 
+       
 
     }
     void onDeath(Notification noti)
