@@ -8,18 +8,24 @@ public class LevelManager : MonoBehaviour
 {
     private GameController gc;
     private NotificationCenter nc;
+
     private GameObject[] hearts;
+    private GameObject ballIcon;
 
     // Start is called before the first frame update
     void Start()
     {
         DontDestroyOnLoad(GameObject.FindWithTag("Manager"));
+        
+        ballIcon = GameObject.FindGameObjectWithTag("ballIcon");
 
+        ballIcon.SetActive(false);
+  
         hearts = new GameObject[3];
         for (int i = 1; i < 4; i++)
         {
             GameObject temp = GameObject.Find("Heart" + i);
-      
+            
             
             hearts[i - 1] = temp;
 
@@ -37,7 +43,7 @@ public class LevelManager : MonoBehaviour
         nc.AddObserver("PlayerExit", onExit);
         nc.AddObserver("Menu", goMenu);
         nc.AddObserver("LessLife", lessLife);
-
+        
         
     }
 
@@ -50,7 +56,7 @@ public class LevelManager : MonoBehaviour
     {
         if (SceneManager.sceneCountInBuildSettings - 2 > gc.Level)
         {
-
+     
             SceneManager.LoadScene("Level " + (gc.NewLevel));
             
 
@@ -90,7 +96,6 @@ public class LevelManager : MonoBehaviour
     void newLevel(Notification noti)
     {
         
-        //New Level Action
 
     }
     void goMenu(Notification noti)

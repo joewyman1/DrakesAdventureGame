@@ -3,7 +3,18 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Heart3
+  - Manager
+  - Heart2
+  - Heart1
+  - Enemy
+  - Ground
+  - Pain
+  - Level
+  - NewBall
+  - Dog
+  - Ball
   layers:
   - Default
   - TransparentFX

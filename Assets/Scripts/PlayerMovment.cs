@@ -23,14 +23,18 @@ public class PlayerMovment : MonoBehaviour
     public TMP_Text lives;
     public TMP_Text level;
 
-
-
+    private bool _hasBall;
     private Color orgColor;
 
+    public bool HasBall { get { return _hasBall; } }
     public GameObject player;
 
     private GameController gc;
+    private NotificationCenter nc;
+    private float startTime = 0.0f, currentTime = 0.0f, timeToWait = 2.0f;
 
+    private GameObject ballPopup;
+    private GameObject ballIcon;
     // Start is called before the first frame update
     void Awake()
     {
@@ -40,46 +44,53 @@ public class PlayerMovment : MonoBehaviour
 
         ///Health and lives setup 
         _health = gc.Lives;
+        _hasBall = false;
+
+        
 
 
+        nc = NotificationCenter.Instance;
         //Observers
-        NotificationCenter.Instance.AddObserver("Dead",  OnDeath);
-        NotificationCenter.Instance.AddObserver("LessLife", lessLife);
-        NotificationCenter.Instance.AddObserver("NewLevel", NewLevel);
+        nc.AddObserver("Dead",  OnDeath);
+        nc.AddObserver("LessLife", lessLife);
+        nc.AddObserver("NewLevel", NewLevel);
 
         Transform spawn = GameObject.FindGameObjectWithTag("Respawn").transform;
 
         player.transform.position = new Vector3(spawn.position.x, spawn.position.y, player.transform.position.z);
 
+        ballPopup = GameObject.FindGameObjectWithTag("HUD").transform.Find("BallPopup").gameObject;
+        ballIcon = GameObject.FindGameObjectWithTag("ballIcon");
+
+        ballIcon.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
+        currentTime = Time.time;
+        if(startTime!= 0.0f)
+        {
+            if (currentTime - startTime > timeToWait)
+            {
+                ballPopup.SetActive(false);
+            }
+        }
         
         _move = Input.GetAxis("Horizontal");
         rb.velocity = new Vector2(Speed * _move, rb.velocity.y);
 
 
-        if(_move!= 0) 
-        {
-            anim.Play("Walk");
-        }
-        else
-        {
-            anim.Play("Idle");
-            /**
-            if (!checkAnimState("Idle")&&!checkAnimState("Lay"))
+            if (_move != 0)
             {
-                anim.Play("Idle");
+                anim.Play("Base Layer.Run");
             }
-            else if(!checkAnimState("Lay")&&!_layStarted)
+            else
             {
-                startLay();
+                anim.Play("Base Layer.Idle");
             }
-            **/
-            
-        }
+        
+           
         
 
         if(_health!= gc.LivesLeft)
@@ -89,7 +100,7 @@ public class PlayerMovment : MonoBehaviour
             //check for death
             if(_health == 0)
             {
-                NotificationCenter.Instance.PostNotification(new Notification("Dead"));
+                nc.PostNotification(new Notification("Dead"));
             }
             else
             {
@@ -126,30 +137,8 @@ public class PlayerMovment : MonoBehaviour
 
        
     }
- 
-    /**
-    private void startLay()
-    {
-        _layStarted = true;
-        float start = Time.time;
-        while (Time.time < start + 2f)
-        {
-            if(_move!= 0)
-            {
-                return;
-            }
-        }
-        if(_move == 0 && checkAnimState("Idle")) 
-        {
-            anim.Play("Lay");
-        }
-        else
-        {
-            return;
-        }
-        
-    } 
-    **/
+
+  
     private void lessLife(Notification notification)
     {
         //
@@ -160,6 +149,11 @@ public class PlayerMovment : MonoBehaviour
     }
     private void NewLevel(Notification nc)
     {
+        ballIcon = GameObject.FindGameObjectWithTag("ballIcon");
+
+        ballIcon.SetActive(false);
+        ballPopup = GameObject.FindGameObjectWithTag("HUD").transform.Find("BallPopup").gameObject;
+        _hasBall = false;
         player = GameObject.FindGameObjectWithTag("Player");
 
         GameObject rPoint = GameObject.FindGameObjectWithTag("Respawn");
@@ -186,13 +180,59 @@ public class PlayerMovment : MonoBehaviour
         if (other.gameObject.CompareTag("Ground"))
         {
             IsJumping = false;
-        }else if (other.gameObject.CompareTag("Pain")|| other.gameObject.CompareTag("Enemy"))
+        }
+        else if (other.gameObject.CompareTag("Pain") || other.gameObject.CompareTag("Enemy"))
         {
-            orgColor = GetComponent<SpriteRenderer>().color;
-            gc.LessLife(1);
-            GetComponent<SpriteRenderer>().color = Color.red;
 
-            rb.AddForce(new Vector2(rb.velocity.x, 400));
+            Vector3 direction = player.transform.position - other.gameObject.transform.position;
+
+            if (direction.y > 0)
+            {
+                //collision is up
+                rb.AddForce(new Vector2(rb.velocity.x, 400));
+                if (other.gameObject.CompareTag("Pain"))
+                {
+                    orgColor = GetComponent<SpriteRenderer>().color;
+                    gc.LessLife(1);
+                    GetComponent<SpriteRenderer>().color = Color.red;
+                }
+                else if (other.gameObject.CompareTag("Enemy"))
+                {
+                    nc.PostNotification(new Notification("AddPoint"));
+                    other.gameObject.SetActive(false);
+                }
+            }
+            else
+            {
+                orgColor = GetComponent<SpriteRenderer>().color;
+                gc.LessLife(1);
+                GetComponent<SpriteRenderer>().color = Color.red;
+            }
+
+
+
+        }
+        else if (other.gameObject.CompareTag("Finish"))
+        {
+            if (_hasBall)
+            {
+                nc.PostNotification(new Notification("PlayerExit"));
+
+            }
+            else
+            {
+              
+                nc.PostNotification(new Notification("PlayerCannotExit"));
+                ballPopup.SetActive(true);
+                startTime = Time.time;
+
+            }
+
+        }else if (other.gameObject.CompareTag("Ball"))
+        {
+            _hasBall = true;
+            other.gameObject.SetActive(false);
+            ballIcon.SetActive(true);
 
         }
     }
@@ -208,4 +248,5 @@ public class PlayerMovment : MonoBehaviour
             IsJumping = true;
         }
     }
+  
 }
