@@ -1,6 +1,6 @@
 # Drake's Adventure Game
 
-by Joseph Wyman devoloped in Unity
+by Joseph Wyman, devoloped in Unity
 
 ## Play Instructions
 
