@@ -11,6 +11,8 @@ public class GameController
 {
    
     public GameObject game;
+    private int _coinCount;
+    public int Coins { get { return _coinCount; }  }
     public int Level { get { return _level; } }
     public int NewLevel {
         get {
@@ -45,8 +47,12 @@ public class GameController
         _lives = 3;
         _livesLeft = 3;
         nc = NotificationCenter.Instance;
+        nc.AddObserver("Coin", AddCoin);
     }
-
+    private void AddCoin(Notification nc)
+    {
+        _coinCount += 1;
+    }
     public void Destroy()
     {
         _instance = null;

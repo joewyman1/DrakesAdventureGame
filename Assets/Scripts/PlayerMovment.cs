@@ -6,7 +6,6 @@ using TMPro;
 using Notifications;
 using UnityEngine.SceneManagement;
 
-
 public class PlayerMovment : MonoBehaviour 
 
 {
@@ -35,6 +34,9 @@ public class PlayerMovment : MonoBehaviour
 
     private GameObject ballPopup;
     private GameObject ballIcon;
+    private GameObject coinIcon;
+    private TMP_Text coinText;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -63,6 +65,9 @@ public class PlayerMovment : MonoBehaviour
         ballIcon = GameObject.FindGameObjectWithTag("ballIcon");
 
         ballIcon.SetActive(false);
+        coinIcon = GameObject.FindGameObjectWithTag("coinIcon");
+
+        
     }
 
     // Update is called once per frame
@@ -149,8 +154,12 @@ public class PlayerMovment : MonoBehaviour
     }
     private void NewLevel(Notification nc)
     {
+        
         ballIcon = GameObject.FindGameObjectWithTag("ballIcon");
+        coinIcon = GameObject.FindGameObjectWithTag("coinIcon");
 
+        coinText.text = "x" + gc.Coins;
+        
         ballIcon.SetActive(false);
         ballPopup = GameObject.FindGameObjectWithTag("HUD").transform.Find("BallPopup").gameObject;
         _hasBall = false;
@@ -234,6 +243,13 @@ public class PlayerMovment : MonoBehaviour
             other.gameObject.SetActive(false);
             ballIcon.SetActive(true);
 
+        }else if (other.gameObject.CompareTag("Coin")){
+
+            nc.PostNotification(new Notification("Coin"));
+
+            other.gameObject.SetActive(false);
+
+            
         }
     }
 
