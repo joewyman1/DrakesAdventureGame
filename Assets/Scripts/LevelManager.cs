@@ -117,12 +117,14 @@ public class LevelManager : MonoBehaviour
     {
         nc.PostNotification(new Notification("MenuActive"));
         SceneManager.LoadScene("Win Screen");
+        gc.Destroy();
     }
     
     void goMenu(Notification noti)
     {
         nc.PostNotification(new Notification("MenuActive"));
         SceneManager.LoadScene("Menu");
+        gc.Destroy();
     }
     void lessLife(Notification noti)
     {
