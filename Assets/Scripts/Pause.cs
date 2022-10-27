@@ -10,10 +10,20 @@ public class Pause : MonoBehaviour
     void Start()
     {
         Cursor.visible = false;
+        
+    }
+
+    void OnEnable()
+    {
         NotificationCenter.Instance.AddObserver("MenuActive", openMenu);
         NotificationCenter.Instance.AddObserver("MenuDeactivate", closeMenu);
     }
 
+    void OnDisable()
+    {
+        NotificationCenter.Instance.RemoveObserver("MenuActive", openMenu);
+        NotificationCenter.Instance.RemoveObserver("MenuDeactivate", closeMenu);
+    }
     // Update is called once per frame
     void Update()
     {

@@ -16,10 +16,35 @@ public class LevelManager : MonoBehaviour
     private GameObject coinIcon;
     private Text coinCount;
 
+    void OnEnable()
+    {
+        DontDestroyOnLoad(GameObject.FindWithTag("Manager"));
+        nc = NotificationCenter.Instance;
+
+
+        nc.AddObserver("Start", onStart);
+        nc.AddObserver("Dead", onDeath);
+        nc.AddObserver("Win", onWin);
+        nc.AddObserver("PlayerExit", onExit);
+        nc.AddObserver("Menu", goMenu);
+        nc.AddObserver("LessLife", lessLife);
+        nc.AddObserver("Coin", coinHandler);
+    }
+
+    void OnDisable()
+    {
+        nc.RemoveObserver("Start", onStart);
+        nc.RemoveObserver("Dead", onDeath);
+        nc.RemoveObserver("Win", onWin);
+        nc.RemoveObserver("PlayerExit", onExit);
+        nc.RemoveObserver("Menu", goMenu);
+        nc.RemoveObserver("LessLife", lessLife);
+        nc.RemoveObserver("Coin", coinHandler);
+    }
     // Start is called before the first frame update
     void Start()
     {
-        DontDestroyOnLoad(GameObject.FindWithTag("Manager"));
+        
         
         ballIcon = GameObject.FindGameObjectWithTag("ballIcon");
 
@@ -38,16 +63,7 @@ public class LevelManager : MonoBehaviour
 
         SceneManager.sceneLoaded += onLevelLoaded;
        
-        nc = NotificationCenter.Instance;
-       
-
-        nc.AddObserver("Start", onStart);
-        nc.AddObserver("Dead", onDeath);
-        nc.AddObserver("Win", onWin);
-        nc.AddObserver("PlayerExit", onExit);
-        nc.AddObserver("Menu", goMenu);
-        nc.AddObserver("LessLife", lessLife);
-        nc.AddObserver("Coin", coinHandler);
+        
         
     }
 
@@ -71,6 +87,17 @@ public class LevelManager : MonoBehaviour
             coinIcon = GameObject.FindGameObjectWithTag("coinIcon");
             coinCount = coinIcon.transform.GetChild(0).gameObject.GetComponent<Text>();
             coinCount.text = "x" + gc.Coins;
+
+            hearts = new GameObject[3];
+            for (int i = 1; i < 4; i++)
+            {
+                GameObject temp = GameObject.Find("Heart" + i);
+
+
+                hearts[i - 1] = temp;
+
+                temp.SetActive(false);
+            }
         }
     }
     void onExit(Notification noti)

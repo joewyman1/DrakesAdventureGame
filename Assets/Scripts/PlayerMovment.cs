@@ -51,11 +51,7 @@ public class PlayerMovment : MonoBehaviour
         
 
 
-        nc = NotificationCenter.Instance;
-        //Observers
-        nc.AddObserver("Dead",  OnDeath);
-        nc.AddObserver("LessLife", lessLife);
-        nc.AddObserver("NewLevel", NewLevel);
+        
 
         Transform spawn = GameObject.FindGameObjectWithTag("Respawn").transform;
 
@@ -68,6 +64,22 @@ public class PlayerMovment : MonoBehaviour
         coinIcon = GameObject.FindGameObjectWithTag("coinIcon");
 
         
+    }
+
+    void OnEnable()
+    {
+        nc = NotificationCenter.Instance;
+        //Observers
+        nc.AddObserver("Dead", OnDeath);
+        nc.AddObserver("LessLife", lessLife);
+        nc.AddObserver("NewLevel", NewLevel);
+    }
+
+    void OnDisable()
+    {
+        nc.RemoveObserver("Dead", OnDeath);
+        nc.RemoveObserver("LessLife", lessLife);
+        nc.RemoveObserver("NewLevel", NewLevel);
     }
 
     // Update is called once per frame

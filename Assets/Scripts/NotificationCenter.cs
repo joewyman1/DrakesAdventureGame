@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Notifications
 {
-    public class NotificationCenter : ScriptableObject
+    public class NotificationCenter 
     {
         private Dictionary<String, EventContainer> observers;
         private static NotificationCenter _instance;
@@ -15,7 +15,7 @@ namespace Notifications
             {
                 if (_instance == null)
                 {
-                    _instance = ScriptableObject.CreateInstance<NotificationCenter>();
+                    _instance = new NotificationCenter();
                 }
                 return _instance;
             }
@@ -52,6 +52,7 @@ namespace Notifications
                 return Observer == null;
             }
         }
+     
 
         public void AddObserver(String notificationName, Action<Notification> observer)
         {
