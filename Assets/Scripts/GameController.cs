@@ -23,9 +23,11 @@ public class GameController
         } }
     public int Lives { get { return _lives; } }
     public int LivesLeft { get { return _livesLeft; } }
+    public int Kills { get { return _kills; }}
     private int _level;
     private int _lives;
     private int _livesLeft;
+    private int _kills;
     private static GameController _instance = null;
     private NotificationCenter nc;
 
@@ -46,8 +48,10 @@ public class GameController
         _level = 1;
         _lives = 3;
         _livesLeft = 3;
+        _kills = 0;
         nc = NotificationCenter.Instance;
         _coinCount = 0;
+        nc.AddObserver("EnemyKilled", onKill);
     }
     public void AddCoin()
     {
@@ -55,8 +59,12 @@ public class GameController
     }
     public void Destroy()
     {
+        nc = NotificationCenter.Instance;
+
+        nc.RemoveObserver("EnemyKilled", onKill);
         _instance = null;
     }
+    
     public void LessLife(int num)
     {
         
@@ -69,6 +77,10 @@ public class GameController
         }
     }
 
-    
+    private void onKill(Notification noti)
+    {
+        _kills += 1;
+        nc.PostNotification(new Notification("NewKill"));
+    }
     
 }

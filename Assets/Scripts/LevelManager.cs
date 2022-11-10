@@ -15,6 +15,12 @@ public class LevelManager : MonoBehaviour
 
     private GameObject coinIcon;
     private Text coinCount;
+    private Text enemyText;
+ 
+
+    private AudioSource _bark;
+    private AudioSource _wimper;
+    private AudioSource _breath;
 
     void OnEnable()
     {
@@ -49,7 +55,9 @@ public class LevelManager : MonoBehaviour
         ballIcon = GameObject.FindGameObjectWithTag("ballIcon");
 
         ballIcon.SetActive(false);
+
         
+
         hearts = new GameObject[3];
         for (int i = 1; i < 4; i++)
         {
@@ -63,10 +71,46 @@ public class LevelManager : MonoBehaviour
 
         SceneManager.sceneLoaded += onLevelLoaded;
        
+<<<<<<< Updated upstream
+        
+        
+=======
+        nc = NotificationCenter.Instance;
+       
+
         
         
     }
+    void OnEnable()
+    {
+        nc = NotificationCenter.Instance;
 
+        nc.AddObserver("Start", onStart);
+        nc.AddObserver("Dead", onDeath);
+        nc.AddObserver("Win", onWin);
+        nc.AddObserver("PlayerExit", onExit);
+        nc.AddObserver("Menu", goMenu);
+        nc.AddObserver("LessLife", lessLife);
+        nc.AddObserver("Coin", coinHandler);
+        nc.AddObserver("NewKill", enemyKilled);
+        nc.AddObserver("Bark", onBark);
+>>>>>>> Stashed changes
+    }
+    void OnDisable()
+    {
+        nc = NotificationCenter.Instance;
+
+        nc.RemoveObserver("Start", onStart);
+        nc.RemoveObserver("Dead", onDeath);
+        nc.RemoveObserver("Win", onWin);
+        nc.RemoveObserver("PlayerExit", onExit);
+        nc.RemoveObserver("Menu", goMenu);
+        nc.RemoveObserver("LessLife", lessLife);
+        nc.RemoveObserver("Coin", coinHandler);
+        nc.RemoveObserver("NewKill", enemyKilled);
+        nc.RemoveObserver("Bark", onBark);
+
+    }
     // Update is called once per frame
     void Update()
     {
@@ -78,10 +122,20 @@ public class LevelManager : MonoBehaviour
         coinCount = coinIcon.transform.GetChild(0).gameObject.GetComponent<Text>();
         gc.AddCoin();
 
+        
         coinCount.text = "x" + gc.Coins;
     }
     void onLevelLoaded(Scene scene, LoadSceneMode mode)
     {
+        enemyText = GameObject.FindGameObjectWithTag("KillCount").GetComponent<Text>();
+
+        _bark = GameObject.FindGameObjectWithTag("Bark").GetComponent<AudioSource>();
+        _wimper = GameObject.FindGameObjectWithTag("Wimper").GetComponent<AudioSource>();
+        _breath = GameObject.FindGameObjectWithTag("Breath").GetComponent<AudioSource>();
+
+        _breath.loop = true;
+        _breath.Play();
+   
         if (scene.name.StartsWith("Level"))
         {
             coinIcon = GameObject.FindGameObjectWithTag("coinIcon");
@@ -100,6 +154,18 @@ public class LevelManager : MonoBehaviour
             }
         }
     }
+    void enemyKilled(Notification noti)
+    {
+        
+        enemyText.text = "Enemies Slain: " + gc.Kills;
+    }
+    void onBark(Notification notification)
+    {
+        _breath.Pause();
+        _bark.Play();
+        _breath.Play();
+    }
+
     void onExit(Notification noti)
     {
         if (SceneManager.sceneCountInBuildSettings - 2 > gc.Level)
@@ -155,6 +221,7 @@ public class LevelManager : MonoBehaviour
     }
     void lessLife(Notification noti)
     {
+       
         hearts = new GameObject[3];
         for (int i = 1; i < 4; i++)
         {
@@ -174,6 +241,9 @@ public class LevelManager : MonoBehaviour
             case 1:
                 hearts[1].SetActive(false);
                 break;
-        }       
+        }
+        _breath.Pause();
+        _wimper.Play();
+        _breath.Play();
     }
 }
