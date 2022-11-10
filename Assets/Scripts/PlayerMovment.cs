@@ -57,13 +57,9 @@ public class PlayerMovment : MonoBehaviour
 
         notPlayingAnimation = true;
 
-<<<<<<< Updated upstream
-        
-=======
+
         nc = NotificationCenter.Instance;
-        //Observers
-       
->>>>>>> Stashed changes
+
 
         Transform spawn = GameObject.FindGameObjectWithTag("Respawn").transform;
 
@@ -79,40 +75,25 @@ public class PlayerMovment : MonoBehaviour
 
         
     }
+   
     void OnEnable()
     {
         nc = NotificationCenter.Instance;
 
-<<<<<<< Updated upstream
-    void OnEnable()
-    {
-        nc = NotificationCenter.Instance;
-        //Observers
-=======
->>>>>>> Stashed changes
         nc.AddObserver("Dead", OnDeath);
         nc.AddObserver("LessLife", lessLife);
         nc.AddObserver("NewLevel", NewLevel);
     }
-<<<<<<< Updated upstream
 
-    void OnDisable()
-    {
-=======
     void OnDisable()
     {
         nc = NotificationCenter.Instance;
 
->>>>>>> Stashed changes
         nc.RemoveObserver("Dead", OnDeath);
         nc.RemoveObserver("LessLife", lessLife);
         nc.RemoveObserver("NewLevel", NewLevel);
     }
-<<<<<<< Updated upstream
 
-=======
->>>>>>> Stashed changes
-    // Update is called once per frame
     void Update()
     {
         currentTime = Time.time;

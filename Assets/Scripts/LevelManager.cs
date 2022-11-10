@@ -71,46 +71,14 @@ public class LevelManager : MonoBehaviour
 
         SceneManager.sceneLoaded += onLevelLoaded;
        
-<<<<<<< Updated upstream
-        
-        
-=======
+
         nc = NotificationCenter.Instance;
        
 
         
         
     }
-    void OnEnable()
-    {
-        nc = NotificationCenter.Instance;
-
-        nc.AddObserver("Start", onStart);
-        nc.AddObserver("Dead", onDeath);
-        nc.AddObserver("Win", onWin);
-        nc.AddObserver("PlayerExit", onExit);
-        nc.AddObserver("Menu", goMenu);
-        nc.AddObserver("LessLife", lessLife);
-        nc.AddObserver("Coin", coinHandler);
-        nc.AddObserver("NewKill", enemyKilled);
-        nc.AddObserver("Bark", onBark);
->>>>>>> Stashed changes
-    }
-    void OnDisable()
-    {
-        nc = NotificationCenter.Instance;
-
-        nc.RemoveObserver("Start", onStart);
-        nc.RemoveObserver("Dead", onDeath);
-        nc.RemoveObserver("Win", onWin);
-        nc.RemoveObserver("PlayerExit", onExit);
-        nc.RemoveObserver("Menu", goMenu);
-        nc.RemoveObserver("LessLife", lessLife);
-        nc.RemoveObserver("Coin", coinHandler);
-        nc.RemoveObserver("NewKill", enemyKilled);
-        nc.RemoveObserver("Bark", onBark);
-
-    }
+   
     // Update is called once per frame
     void Update()
     {
