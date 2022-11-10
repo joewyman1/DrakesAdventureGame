@@ -95,17 +95,19 @@ public class LevelManager : MonoBehaviour
     }
     void onLevelLoaded(Scene scene, LoadSceneMode mode)
     {
-        enemyText = GameObject.FindGameObjectWithTag("KillCount").GetComponent<Text>();
-
-        _bark = GameObject.FindGameObjectWithTag("Bark").GetComponent<AudioSource>();
-        _wimper = GameObject.FindGameObjectWithTag("Wimper").GetComponent<AudioSource>();
-        _breath = GameObject.FindGameObjectWithTag("Breath").GetComponent<AudioSource>();
-
-        _breath.loop = true;
-        _breath.Play();
+        
    
         if (scene.name.StartsWith("Level"))
         {
+            enemyText = GameObject.FindGameObjectWithTag("KillCount").GetComponent<Text>();
+
+            _bark = GameObject.FindGameObjectWithTag("Bark").GetComponent<AudioSource>();
+            _wimper = GameObject.FindGameObjectWithTag("Wimper").GetComponent<AudioSource>();
+            _breath = GameObject.FindGameObjectWithTag("Breath").GetComponent<AudioSource>();
+
+            _breath.loop = true;
+            _breath.Play();
+
             coinIcon = GameObject.FindGameObjectWithTag("coinIcon");
             coinCount = coinIcon.transform.GetChild(0).gameObject.GetComponent<Text>();
             coinCount.text = "x" + gc.Coins;
@@ -118,7 +120,7 @@ public class LevelManager : MonoBehaviour
 
                 hearts[i - 1] = temp;
 
-                temp.SetActive(false);
+                temp.SetActive(true);
             }
         }
     }
@@ -136,7 +138,7 @@ public class LevelManager : MonoBehaviour
 
     void onExit(Notification noti)
     {
-        if (SceneManager.sceneCountInBuildSettings - 2 > gc.Level)
+        if (SceneManager.sceneCountInBuildSettings - 3 > gc.Level)
         {
      
             SceneManager.LoadScene("Level " + (gc.NewLevel));
@@ -145,7 +147,7 @@ public class LevelManager : MonoBehaviour
             
 
         }
-        else if (SceneManager.sceneCountInBuildSettings -2  == gc.Level)
+        else if (SceneManager.sceneCountInBuildSettings -3  == gc.Level)
         {
             //Win
 
