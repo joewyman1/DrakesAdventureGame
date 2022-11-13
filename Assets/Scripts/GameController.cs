@@ -51,7 +51,7 @@ public class GameController
         _kills = 0;
         nc = NotificationCenter.Instance;
         _coinCount = 0;
-        nc.AddObserver("EnemyKilled", onKill);
+ 
     }
     public void AddCoin()
     {
@@ -59,9 +59,6 @@ public class GameController
     }
     public void Destroy()
     {
-        nc = NotificationCenter.Instance;
-
-        nc.RemoveObserver("EnemyKilled", onKill);
         _instance = null;
     }
     
@@ -77,10 +74,10 @@ public class GameController
         }
     }
 
-    private void onKill(Notification noti)
+    public void addKill()
     {
         _kills += 1;
-        nc.PostNotification(new Notification("NewKill"));
+ 
     }
     
 }

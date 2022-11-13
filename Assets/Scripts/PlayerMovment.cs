@@ -1,4 +1,4 @@
- using System.Collections;
+using System.Collections;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +6,7 @@ using TMPro;
 using Notifications;
 using UnityEngine.SceneManagement;
 
-public class PlayerMovment : MonoBehaviour 
+public class PlayerMovment : MonoBehaviour
 
 {
     public float Speed;
@@ -28,18 +28,19 @@ public class PlayerMovment : MonoBehaviour
     public bool HasBall { get { return _hasBall; } }
     public GameObject player;
     private bool notPlayingAnimation;
-    private bool sleep;
+    private bool sleep, invincible;
 
-    private bool canBark;
+    private bool canBark, barking, sitting;
 
     private GameController gc;
     private NotificationCenter nc;
-    private float startTime = 0.0f, currentTime = 0.0f, timeToWait = 2.0f, startIdle = 0.0f, startBark = 0.0f;
+    private float enemyPopupTimer = 0.0f, startTime = 0.0f, currentTime = 0.0f, timeToWait = 2.0f, startIdle = 0.0f, startBark = 0.0f, startPain = 0.0f;
 
     private GameObject ballPopup;
     private GameObject ballIcon;
     private GameObject coinIcon;
     private GameObject enemyPopup;
+
 
 
     // Start is called before the first frame update
@@ -53,7 +54,9 @@ public class PlayerMovment : MonoBehaviour
         _health = gc.Lives;
         _hasBall = false;
 
+        invincible = false;
         canBark = true;
+        barking = false;
 
         notPlayingAnimation = true;
 
@@ -73,34 +76,47 @@ public class PlayerMovment : MonoBehaviour
 
         enemyPopup = GameObject.FindGameObjectWithTag("HUD").transform.Find("EnemyKilled").gameObject;
 
-        
+
     }
-   
+
     void OnEnable()
     {
         nc = NotificationCenter.Instance;
-
-        nc.AddObserver("Dead", OnDeath);
-        nc.AddObserver("LessLife", lessLife);
         nc.AddObserver("NewLevel", NewLevel);
+        nc.AddObserver("EnemyKilled", onEnemyKilled);
     }
 
     void OnDisable()
     {
         nc = NotificationCenter.Instance;
-
-        nc.RemoveObserver("Dead", OnDeath);
-        nc.RemoveObserver("LessLife", lessLife);
         nc.RemoveObserver("NewLevel", NewLevel);
+        nc.RemoveObserver("EnemyKilled", onEnemyKilled);
+
     }
 
     void Update()
     {
+        checkTimer();
+        moveChar();
+        checkHealth();
+    }
+
+    void Flip()
+    {
+        Vector3 currentScale = gameObject.transform.localScale;
+        currentScale.x *= -1;
+        gameObject.transform.localScale = currentScale;
+
+
+    }
+    private void checkTimer()
+    {
         currentTime = Time.time;
-        
-        if(startTime!= 0.0f|| startBark != 0.0f || startIdle != 0.0f)
+
+        if (startTime != 0.0f || startBark != 0.0f || startIdle != 0.0f || startPain != 0.0f || enemyPopup!= 0.0f)
         {
-            if(_move != 0)
+
+            if (_move != 0)
             {
                 notPlayingAnimation = true;
 
@@ -109,72 +125,100 @@ public class PlayerMovment : MonoBehaviour
             {
                 ballPopup.SetActive(false);
             }
-            if (startBark!= 0.0f &&currentTime - startBark > 2.0f)
+            if (startBark != 0.0f && currentTime - startBark > 1.3f)
             {
 
                 notPlayingAnimation = true;
                 startBark = 0.0f;
-                enemyPopup.SetActive(false);
+                
+                barking = false;
                 canBark = true;
             }
-            if (startIdle != 0.0f && currentTime-startIdle > 6.0f)
+            if (currentTime - enemyPopup > 2.0f)
             {
-                
+                enemyPopup.SetActive(false);
+            }
+            if (startIdle != 0.0f && currentTime - startIdle > 6.0f)
+            {
+
                 anim.Play("Base Layer.Sleep");
                 sleep = true;
-                
+
+            }
+            else if (startIdle != 0.0f && currentTime - startIdle > 3.0f)
+            {
+                anim.Play("Base Layer.Sit");
+                sitting = true;
+            }
+            if (startPain != 0)
+            {
+                invincible = true;
+            }
+            if (startPain != 0 && currentTime - startPain > 5.0f && currentTime - startPain < 1.0f)
+            {
+                GetComponent<SpriteRenderer>().color = orgColor;
+            }
+            else if (startPain != 0 && currentTime - startPain > 1.0f && currentTime - startPain < 1.5f)
+            {
+                GetComponent<SpriteRenderer>().color = Color.red;
+            }
+            else if (startPain != 0 && currentTime - startPain > 1.5f)
+            {
+                GetComponent<SpriteRenderer>().color = orgColor;
+
+                startPain = 0.0f;
+                invincible = false;
             }
         }
         
+    }
+    private void checkHealth()
+    {
+        if (_health != gc.LivesLeft)
+        {
+            _health = gc.LivesLeft;
+            if (_health == 0)
+            {
+                nc.PostNotification(new Notification("Dead"));
+            }
+        }
+    }
+    private void moveChar()
+    {
         if (!IsJumping)
         {
             _move = Input.GetAxis("Horizontal");
             rb.velocity = new Vector2(Speed * _move, rb.velocity.y);
-
         }
-        
 
         if (notPlayingAnimation)
         {
             if (_move != 0)
             {
-                if (sleep)
+
+
+                sleep = false;
+                sitting = false;
+                startIdle = 0.0f;
+                if (barking)
                 {
-                    sleep = false;
-                    startIdle = 0.0f;
+                    anim.Play("Base Layer.Bark_Stand");
+                }
+                else
+                {
+                    anim.Play("Base Layer.Run");
                 }
 
-
-
-                anim.Play("Base Layer.Run");
             }
             else
             {
-                if (!sleep  && startIdle == 0.0f)
+                if (!sleep && !sitting && startIdle == 0.0f)
                 {
                     anim.Play("Base Layer.Idle");
                     startIdle = Time.time;
                 }
             }
         }
-           
-        
-
-        if(_health!= gc.LivesLeft)
-        {
-            _health = gc.LivesLeft;
-
-            //check for death
-            if(_health == 0)
-            {
-                nc.PostNotification(new Notification("Dead"));
-            }
-            else
-            {
-               
-            }
-        }
-
 
         float mvm = Input.GetAxisRaw("Horizontal");
         if (mvm < 0)
@@ -183,63 +227,38 @@ public class PlayerMovment : MonoBehaviour
             GetComponent<SpriteRenderer>().flipX = true;
 
         }
-        else if (mvm > 0  )
+        else if (mvm > 0)
         {
 
             GetComponent<SpriteRenderer>().flipX = false;
 
         }
 
-        if (Input.GetButtonDown("Jump")&& !IsJumping&& !sleep)
+        if (Input.GetButtonDown("Jump") && !IsJumping && !sleep)
         {
             rb.AddForce(new Vector2(rb.velocity.x, Jump));
-        }else if (Input.GetMouseButtonDown(0)&& canBark)
+        }
+        else if (Input.GetMouseButtonDown(0) && canBark )
         {
-            //Shoot Button
+            barking = true;
             anim.Play("Base Layer.Bark_Stand");
             nc.PostNotification(new Notification("Bark"));
             notPlayingAnimation = false;
             canBark = false;
             startBark = Time.time;
-            foreach(GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy")){
-
-                if(Vector2.Distance(enemy.transform.position, player.transform.position) <=  2.0f)
-                {
-                    enemy.SetActive(false);
-                    enemyPopup.SetActive(true);
-                    nc.PostNotification(new Notification("EnemyKilled"));
-                }
-            }
 
         }
-    }
-   
-    void Flip()
-    {
-        Vector3 currentScale = gameObject.transform.localScale;
-        currentScale.x *= -1;
-        gameObject.transform.localScale = currentScale;
 
-       
     }
 
-  
-    private void lessLife(Notification notification)
-    {
-        //
-    }
-    private void OnDeath(Notification notification)
-    {
-        //Restart Game
-    }
     private void NewLevel(Notification nc)
     {
-        
+
         ballIcon = GameObject.FindGameObjectWithTag("ballIcon");
         coinIcon = GameObject.FindGameObjectWithTag("coinIcon");
 
 
-        
+
         ballIcon.SetActive(false);
         ballPopup = GameObject.FindGameObjectWithTag("HUD").transform.Find("BallPopup").gameObject;
         _hasBall = false;
@@ -252,27 +271,20 @@ public class PlayerMovment : MonoBehaviour
 
 
     }
-   
-    private bool checkAnimState(string name)
+    private void onEnemyKilled(Notification noti)
     {
-        if (anim.GetCurrentAnimatorStateInfo(0).IsName(name))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        enemyPopup.SetActive(true);
     }
+
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("Ground"))
         {
             IsJumping = false;
 
-          
+
         }
-        else if (other.gameObject.CompareTag("Pain") )
+        else if (other.gameObject.CompareTag("Pain") && !invincible)
         {
 
             Vector3 direction = player.transform.position - other.gameObject.transform.position;
@@ -281,29 +293,30 @@ public class PlayerMovment : MonoBehaviour
             {
                 //collision is up
                 rb.AddForce(new Vector2(rb.velocity.x, 300));
-                if (other.gameObject.CompareTag("Pain"))
-                {
-                    orgColor = GetComponent<SpriteRenderer>().color;
-                    gc.LessLife(1);
-                    GetComponent<SpriteRenderer>().color = Color.red;
-                }
-                
+                gc.LessLife(1);
+                GetComponent<SpriteRenderer>().color = Color.red;
+                startPain = Time.time;
+
             }
             else
             {
-              
+
                 orgColor = GetComponent<SpriteRenderer>().color;
                 gc.LessLife(1);
                 GetComponent<SpriteRenderer>().color = Color.red;
             }
-            
 
 
-        }else if (other.gameObject.CompareTag("Enemy"))
+
+        }
+        else if (other.gameObject.CompareTag("Enemy") && !invincible && !other.otherRigidbody.gameObject.CompareTag("Projectile"))
         {
-            orgColor = GetComponent<SpriteRenderer>().color;
             gc.LessLife(1);
+
+            orgColor = GetComponent<SpriteRenderer>().color;
             GetComponent<SpriteRenderer>().color = Color.red;
+
+            startPain = Time.time;
         }
         else if (other.gameObject.CompareTag("Finish"))
         {
@@ -314,39 +327,52 @@ public class PlayerMovment : MonoBehaviour
             }
             else
             {
-              
+
                 nc.PostNotification(new Notification("PlayerCannotExit"));
                 ballPopup.SetActive(true);
                 startTime = Time.time;
 
             }
 
-        }else if (other.gameObject.CompareTag("Ball"))
+        }
+        else if (other.gameObject.CompareTag("Ball"))
         {
             _hasBall = true;
             other.gameObject.SetActive(false);
             ballIcon.SetActive(true);
 
-        }else if (other.gameObject.CompareTag("Coin")){
+        }
+        else if (other.gameObject.CompareTag("Coin"))
+        {
 
             nc.PostNotification(new Notification("Coin"));
 
             other.gameObject.SetActive(false);
 
-            
+
         }
+
     }
 
     private void OnCollisionExit2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("Ground"))
         {
-            if (GetComponent<SpriteRenderer>().color == Color.red)
-            {
-                GetComponent<SpriteRenderer>().color = orgColor;
-            }
             IsJumping = true;
         }
     }
-  
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Projectile")){
+            float cur = Time.time;
+            nc.PostNotification(new Notification("EnemyHit", other.gameObject));
+            enemyPopup.SetActive(true);
+
+            enemyPopupTimer = Time.time;
+
+        }
+    }
+
+
 }

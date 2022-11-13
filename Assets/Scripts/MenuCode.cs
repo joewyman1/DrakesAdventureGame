@@ -10,6 +10,7 @@ public class MenuCode : MonoBehaviour
     {
         nc = NotificationCenter.Instance;
         nc.PostNotification(new Notification("MenuActive"));
+        GameObject.Find("/GameMusic/Audiio Source").GetComponent<AudioSource>().Pause();
     }
 
     // Update is called once per frame
@@ -21,6 +22,7 @@ public class MenuCode : MonoBehaviour
     public void onClickStart()
     {
         NotificationCenter.Instance.PostNotification(new Notification("Start"));
+        GameObject.Find("/GameMusic/Audiio Source").GetComponent<AudioSource>().UnPause();
         nc.PostNotification(new Notification("MenuDectivate"));
     }
    public  void onClickQuit()

@@ -31,4 +31,10 @@ public class ButtonCode : MonoBehaviour
     {
         NotificationCenter.Instance.PostNotification(new Notification("Menu"));
     }
+    public void nameAdded()
+    {
+        NotificationCenter.Instance.PostNotification(new Notification("NameBtnPressed"));
+        
+        
+    }
 }
