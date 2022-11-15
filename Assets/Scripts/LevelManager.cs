@@ -203,6 +203,7 @@ public class LevelManager : MonoBehaviour
         gc = GameController.Instance;
         SceneManager.LoadScene("Level 1");
         
+        
     }
     void onDeath(Notification noti)
     {

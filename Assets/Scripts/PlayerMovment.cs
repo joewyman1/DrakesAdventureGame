@@ -81,6 +81,9 @@ ballIcon = GameObject.FindGameObjectWithTag("ballIcon");
         nc.AddObserver("EnemyKilled", onEnemyKilled);
         nc.AddObserver("isDying", onDie);
         nc.AddObserver("isDead", onDead);
+        nc.AddObserver("Start", onResume);
+        nc.AddObserver("MenuActive", onPause);
+        nc.AddObserver("isDead", onDead);
     }
 
     void OnDisable()
@@ -90,9 +93,18 @@ ballIcon = GameObject.FindGameObjectWithTag("ballIcon");
         nc.RemoveObserver("EnemyKilled", onEnemyKilled);
         nc.RemoveObserver("isDying", onDie);
         nc.RemoveObserver("isDead", onDead);
+        nc.RemoveObserver("Start", onResume);
+        nc.RemoveObserver("MenuActive", onPause);
 
     }
-
+    private void onPause(Notification n)
+    {
+        canBark = false;
+    }
+    private void onResume(Notification n)
+    {
+        canBark = true;
+    }
     void Update()
     {
         checkTimer();
