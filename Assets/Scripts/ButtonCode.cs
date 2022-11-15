@@ -27,6 +27,10 @@ public class ButtonCode : MonoBehaviour
 
         Application.Quit();
     }
+    public void restart()
+    {
+        NotificationCenter.Instance.PostNotification(new Notification("RestartLevel"));
+    }
     public void deathContinue()
     {
         NotificationCenter.Instance.PostNotification(new Notification("Menu"));

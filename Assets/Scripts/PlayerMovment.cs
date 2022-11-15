@@ -23,7 +23,7 @@ public class PlayerMovment : MonoBehaviour
     public TMP_Text level;
 
     private bool _hasBall;
-    private Color orgColor;
+
 
     public bool HasBall { get { return _hasBall; } }
     public GameObject player;
@@ -39,9 +39,8 @@ public class PlayerMovment : MonoBehaviour
     private GameObject ballPopup;
     private GameObject ballIcon;
     private GameObject coinIcon;
-    private GameObject enemyPopup;
 
-
+    private GameObject dying;
 
     // Start is called before the first frame update
     void Awake()
@@ -69,14 +68,10 @@ public class PlayerMovment : MonoBehaviour
         player.transform.position = new Vector3(spawn.position.x, spawn.position.y, player.transform.position.z);
 
         ballPopup = GameObject.FindGameObjectWithTag("HUD").transform.Find("BallPopup").gameObject;
-        ballIcon = GameObject.FindGameObjectWithTag("ballIcon");
+ballIcon = GameObject.FindGameObjectWithTag("ballIcon");
 
         ballIcon.SetActive(false);
         coinIcon = GameObject.FindGameObjectWithTag("coinIcon");
-
-        enemyPopup = GameObject.FindGameObjectWithTag("HUD").transform.Find("EnemyKilled").gameObject;
-
-
     }
 
     void OnEnable()
@@ -84,6 +79,8 @@ public class PlayerMovment : MonoBehaviour
         nc = NotificationCenter.Instance;
         nc.AddObserver("NewLevel", NewLevel);
         nc.AddObserver("EnemyKilled", onEnemyKilled);
+        nc.AddObserver("isDying", onDie);
+        nc.AddObserver("isDead", onDead);
     }
 
     void OnDisable()
@@ -91,6 +88,8 @@ public class PlayerMovment : MonoBehaviour
         nc = NotificationCenter.Instance;
         nc.RemoveObserver("NewLevel", NewLevel);
         nc.RemoveObserver("EnemyKilled", onEnemyKilled);
+        nc.RemoveObserver("isDying", onDie);
+        nc.RemoveObserver("isDead", onDead);
 
     }
 
@@ -109,11 +108,21 @@ public class PlayerMovment : MonoBehaviour
 
 
     }
+    private void onDie(Notification n)
+    {
+        dying = (GameObject)n.Object;
+        
+    }
+    private void onDead(Notification n)
+    {
+        dying = null;
+
+    }
     private void checkTimer()
     {
         currentTime = Time.time;
 
-        if (startTime != 0.0f || startBark != 0.0f || startIdle != 0.0f || startPain != 0.0f || enemyPopup!= 0.0f)
+        if (startTime != 0.0f || startBark != 0.0f || startIdle != 0.0f || startPain != 0.0f || enemyPopupTimer != 0.0f)
         {
 
             if (_move != 0)
@@ -130,24 +139,23 @@ public class PlayerMovment : MonoBehaviour
 
                 notPlayingAnimation = true;
                 startBark = 0.0f;
-                
+
                 barking = false;
                 canBark = true;
             }
-            if (currentTime - enemyPopup > 2.0f)
-            {
-                enemyPopup.SetActive(false);
-            }
+           
             if (startIdle != 0.0f && currentTime - startIdle > 6.0f)
             {
 
                 anim.Play("Base Layer.Sleep");
-                sleep = true;
 
+                sleep = true;
             }
             else if (startIdle != 0.0f && currentTime - startIdle > 3.0f)
             {
+
                 anim.Play("Base Layer.Sit");
+
                 sitting = true;
             }
             if (startPain != 0)
@@ -156,7 +164,7 @@ public class PlayerMovment : MonoBehaviour
             }
             if (startPain != 0 && currentTime - startPain > 5.0f && currentTime - startPain < 1.0f)
             {
-                GetComponent<SpriteRenderer>().color = orgColor;
+                GetComponent<SpriteRenderer>().color = new Color(1,1,1,1);
             }
             else if (startPain != 0 && currentTime - startPain > 1.0f && currentTime - startPain < 1.5f)
             {
@@ -164,13 +172,13 @@ public class PlayerMovment : MonoBehaviour
             }
             else if (startPain != 0 && currentTime - startPain > 1.5f)
             {
-                GetComponent<SpriteRenderer>().color = orgColor;
+                GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
 
                 startPain = 0.0f;
                 invincible = false;
             }
         }
-        
+
     }
     private void checkHealth()
     {
@@ -200,21 +208,18 @@ public class PlayerMovment : MonoBehaviour
                 sleep = false;
                 sitting = false;
                 startIdle = 0.0f;
-                if (barking)
-                {
-                    anim.Play("Base Layer.Bark_Stand");
-                }
-                else
-                {
-                    anim.Play("Base Layer.Run");
-                }
+
+                anim.Play("Base Layer.Run");
 
             }
             else
             {
                 if (!sleep && !sitting && startIdle == 0.0f)
                 {
+
+
                     anim.Play("Base Layer.Idle");
+
                     startIdle = Time.time;
                 }
             }
@@ -238,7 +243,7 @@ public class PlayerMovment : MonoBehaviour
         {
             rb.AddForce(new Vector2(rb.velocity.x, Jump));
         }
-        else if (Input.GetMouseButtonDown(0) && canBark )
+        else if (Input.GetMouseButtonDown(0) && canBark && !sleep && !barking)
         {
             barking = true;
             anim.Play("Base Layer.Bark_Stand");
@@ -273,7 +278,7 @@ public class PlayerMovment : MonoBehaviour
     }
     private void onEnemyKilled(Notification noti)
     {
-        enemyPopup.SetActive(true);
+        ///On Enemy Killed
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -300,8 +305,6 @@ public class PlayerMovment : MonoBehaviour
             }
             else
             {
-
-                orgColor = GetComponent<SpriteRenderer>().color;
                 gc.LessLife(1);
                 GetComponent<SpriteRenderer>().color = Color.red;
             }
@@ -311,12 +314,13 @@ public class PlayerMovment : MonoBehaviour
         }
         else if (other.gameObject.CompareTag("Enemy") && !invincible && !other.otherRigidbody.gameObject.CompareTag("Projectile"))
         {
-            gc.LessLife(1);
+            if (dying != other.gameObject)
+            {
+                gc.LessLife(1);
+                GetComponent<SpriteRenderer>().color = Color.red;
 
-            orgColor = GetComponent<SpriteRenderer>().color;
-            GetComponent<SpriteRenderer>().color = Color.red;
-
-            startPain = Time.time;
+                startPain = Time.time;
+            }
         }
         else if (other.gameObject.CompareTag("Finish"))
         {
@@ -362,17 +366,7 @@ public class PlayerMovment : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.gameObject.CompareTag("Projectile")){
-            float cur = Time.time;
-            nc.PostNotification(new Notification("EnemyHit", other.gameObject));
-            enemyPopup.SetActive(true);
 
-            enemyPopupTimer = Time.time;
-
-        }
-    }
 
 
 }

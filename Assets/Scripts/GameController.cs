@@ -17,6 +17,8 @@ public class GameController
     public int NewLevel {
         get {
             nc.PostNotification(new Notification("NewLevel"));
+            _killsThisLevel = 0;
+            _coinsThisLevel = 0;
             _level += 1;
             _livesLeft = 3;
             return _level;
@@ -28,6 +30,8 @@ public class GameController
     private int _lives;
     private int _livesLeft;
     private int _kills;
+    private int _coinsThisLevel;
+    private int _killsThisLevel;
     private static GameController _instance = null;
     private NotificationCenter nc;
 
@@ -45,6 +49,8 @@ public class GameController
     
     public GameController()
     {
+        _killsThisLevel = 0;
+        _coinsThisLevel = 0;
         _level = 1;
         _lives = 3;
         _livesLeft = 3;
@@ -56,12 +62,22 @@ public class GameController
     public void AddCoin()
     {
         _coinCount += 1;
+        _coinsThisLevel += 1;
     }
     public void Destroy()
     {
         _instance = null;
     }
-    
+    public void RestartLevel()
+    {
+        _kills -= _killsThisLevel;
+        _coinCount -= _coinsThisLevel;
+        _killsThisLevel = 0;
+        _lives = 3;
+        _livesLeft = 3;
+
+    }
+
     public void LessLife(int num)
     {
         
@@ -77,7 +93,7 @@ public class GameController
     public void addKill()
     {
         _kills += 1;
- 
+        _killsThisLevel += 1;
     }
     
 }

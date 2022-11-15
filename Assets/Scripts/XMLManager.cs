@@ -4,31 +4,33 @@ using UnityEngine;
 using System.Xml.Serialization;
 using System.IO;
 
+
 public class XMLManager
 {
-    static XMLManager mInstance;
-    public static XMLManager instance
+    public Leaderboard leaderboard;
+    private static XMLManager _instance;
+    public  static XMLManager instance
     {
         get
         {
-            if (mInstance == null)
+            if (_instance == null)
             {
-                mInstance = new XMLManager();
+                _instance = new XMLManager();
             }
-            return mInstance;
+            return _instance;
         }
     }
-    public XMLManager() { }
+    public XMLManager() {
 
-    public Leaderboard leaderboard;
-    void Awake()
-    {
-        
+        leaderboard = new Leaderboard();
         if (!Directory.Exists(Application.dataPath + "/SavedData/"))
         {
             Directory.CreateDirectory(Application.dataPath + "/SavedData/");
         }
     }
+
+    
+
     public void saveScores(List<HighScore> scoresToSave)
     {
         leaderboard.list = scoresToSave;
@@ -52,6 +54,7 @@ public class XMLManager
         }
         return leaderboard.list;
     }
+    
 }
 [System.Serializable]
 public class Leaderboard

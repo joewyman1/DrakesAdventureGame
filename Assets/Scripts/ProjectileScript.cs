@@ -7,18 +7,26 @@ public class ProjectileScript : MonoBehaviour
 {
     public GameObject projectile;
     public GameObject player;
+    public GameObject explosion;
 
     private GameController gc;
     private NotificationCenter nc;
     private Vector3 org;
     private Rigidbody2D rb;
+    private float deadTime = 0.0f, expTime = 0.0f;
+    private GameObject tempEnemy;
+
+
+
     // Start is called before the first frame update
     void Start()
     {
         org = projectile.transform.position;
         gc = GameController.Instance;
         nc = NotificationCenter.Instance;
-
+        DontDestroyOnLoad(projectile);
+        DontDestroyOnLoad(explosion);
+        tempEnemy = null;
         nc = NotificationCenter.Instance;
         nc.AddObserver("Bark", onBark);
         rb = projectile.GetComponent<Rigidbody2D>();
@@ -28,28 +36,45 @@ public class ProjectileScript : MonoBehaviour
     {
         nc = NotificationCenter.Instance;
         nc.AddObserver("Bark", onBark);
-        nc.AddObserver("EnemyHit", onHit);
+
     }
 
     void onDisable()
     {
         nc.RemoveObserver("Bark", onBark);
-        nc.RemoveObserver("EnemyHit", onHit);
+
     }
     // Update is called once per frame
     void Update()
     {
-        if(!projectile.activeSelf)
+        float currentTime = Time.time;
+        if (!projectile.activeSelf)
         {
             rb.Sleep();
-        } 
+        }
+        if (player == null)
+        {
+            player = GameObject.Find("/Player");
+        }
+
+        if (deadTime != 0.0f && currentTime - deadTime > 0.7f && tempEnemy != null)
+        {
+            nc.PostNotification(new Notification("isDead"));
+            tempEnemy.SetActive(false);
+            deadTime = 0.0f;
+            tempEnemy = null;
+        }
+        if(expTime != 0.0f && currentTime - expTime > 0.4f)
+        {
+            explosion.transform.position = org;
+            expTime = 0.0f;
+        }
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
-            other.gameObject.SetActive(false);
-            
+            onHit(other.gameObject);
         }
     }
     private void onBark(Notification noti)
@@ -68,12 +93,17 @@ public class ProjectileScript : MonoBehaviour
 
         rb.AddForce(mouseDir * 500);
     }
-    private void onHit(Notification noti)
+    private void onHit(GameObject enemy)
     {
-        GameObject enemy = (GameObject) noti.Object;
-        enemy.SetActive(false);
+        tempEnemy = enemy;
+        Animator an = enemy.GetComponent<Animator>();
+        an.Play("Die");
+        deadTime = Time.time;
         gc.addKill();
         nc.PostNotification(new Notification("EnemyKilled"));
+        nc.PostNotification(new Notification("isDying", enemy));
+        expTime = Time.time;
+        explosion.transform.position = enemy.transform.position;
         projectile.transform.position = org;
         rb.Sleep();
     }

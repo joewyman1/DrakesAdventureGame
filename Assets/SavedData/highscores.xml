@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<Leaderboard xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <list>
+    <HighScore>
+      <Name>Joe</Name>
+      <Score>1</Score>
+      <Kills>1</Kills>
+    </HighScore>
+    <HighScore>
+      <Name>Joe</Name>
+      <Score>1</Score>
+      <Kills>2</Kills>
+    </HighScore>
+  </list>
+</Leaderboard>

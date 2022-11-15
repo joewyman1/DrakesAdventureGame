@@ -24,9 +24,13 @@ public class LevelManager : MonoBehaviour
     private AudioSource _breath;
 
     private List<HighScore> highScores;
-
+    private Text scoreboard;
     void OnEnable()
     {
+        gc = GameController.Instance;
+        highScores = XMLManager.instance.loadScores();
+        loadScoreboard();
+
         DontDestroyOnLoad(GameObject.FindWithTag("Manager"));
 
         nc = NotificationCenter.Instance;
@@ -39,9 +43,10 @@ public class LevelManager : MonoBehaviour
         nc.AddObserver("Menu", goMenu);
         nc.AddObserver("LessLife", lessLife);
         nc.AddObserver("Coin", coinHandler);
-        nc.AddObserver("NameAdded", onNameSaved);
         nc.AddObserver("NameBtnPressed", onNameBtnPressed);
         nc.AddObserver("EnemyKilled", enemyKilled);
+        nc.AddObserver("RestartLevel", onRestartLevel);
+        nc.AddObserver("Bark", onBark);
 
 
 
@@ -56,9 +61,10 @@ public class LevelManager : MonoBehaviour
         nc.RemoveObserver("Menu", goMenu);
         nc.RemoveObserver("LessLife", lessLife);
         nc.RemoveObserver("Coin", coinHandler);
-        nc.RemoveObserver("NameAdded", onNameSaved);
         nc.RemoveObserver("NameBtnPressed", onNameBtnPressed);
         nc.RemoveObserver("EnemyKilled", enemyKilled);
+        nc.RemoveObserver("RestartLevel", onRestartLevel);
+        nc.RemoveObserver("Bark", onBark);
 
 
     }
@@ -66,13 +72,13 @@ public class LevelManager : MonoBehaviour
     void Start()
     {
 
-        highScores = XMLManager.instance.loadScores();
+        
 
         ballIcon = GameObject.FindGameObjectWithTag("ballIcon");
 
         ballIcon.SetActive(false);
 
-
+        
 
         hearts = new GameObject[3];
         for (int i = 1; i < 4; i++)
@@ -94,7 +100,27 @@ public class LevelManager : MonoBehaviour
 
 
     }
+    private void onRestartLevel(Notification n)
+    {
+        gc.RestartLevel();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 
+
+    }
+    private void loadScoreboard()
+    {
+        scoreboard = GameObject.Find("/MenuCanvas/ScorePanel/ScoreBoard").GetComponent<Text>();
+        HighScore[] scores = highScores.ToArray();
+        scores = sortArray(scores);
+        string temp = "High Scores:$";
+        for (int i = 0; i < highScores.Count; i++)
+        {
+            HighScore curr = scores[i];
+            temp += curr.Name + "- Kills:" + curr.Kills + ", Score:" + curr.Score + '$';
+        }
+        temp = temp.Replace('$', '\n');
+        scoreboard.text = temp;
+    }
     // Update is called once per frame
     void Update()
     {
@@ -142,24 +168,13 @@ public class LevelManager : MonoBehaviour
         {
             if (highScores != null)
             {
-                Text scoreboard = GameObject.Find("/MenuCanvas/ScorePanel/ScoreBoard").GetComponent<Text>();
-                HighScore[] scores = highScores.ToArray();
-                scores = sortArray(scores);
-                string temp = "High Scores:/n";
-                for (int i = 0; i < highScores.Count; i++)
-                {
-                    HighScore curr = scores[i];
-                    temp += curr.Name + "            " + curr.Score + System.Environment.NewLine;
-                }
-
-                scoreboard.text = temp;
+                loadScoreboard();
             }
         }
     }
     void enemyKilled(Notification noti)
     {
         enemyText = GameObject.FindGameObjectWithTag("KillCount").GetComponent<Text>();
-
         enemyText.text = "Enemies Slain: " + gc.Kills;
     }
     void onBark(Notification notification)
@@ -173,17 +188,12 @@ public class LevelManager : MonoBehaviour
     {
         if (SceneManager.sceneCountInBuildSettings - 4 > gc.Level)
         {
-
             SceneManager.LoadScene("Level " + (gc.NewLevel));
             coinIcon = GameObject.FindGameObjectWithTag("coinIcon");
             coinCount = coinIcon.transform.GetChild(0).gameObject.GetComponent<Text>();
-
-
         }
         else if (SceneManager.sceneCountInBuildSettings - 4 == gc.Level)
         {
-            //Win
-
             nc.PostNotification(new Notification("Win"));
         }
     }
@@ -192,48 +202,41 @@ public class LevelManager : MonoBehaviour
     {
         gc = GameController.Instance;
         SceneManager.LoadScene("Level 1");
-
-
-
-
+        
     }
     void onDeath(Notification noti)
     {
-
-
         nc.PostNotification(new Notification("MenuActive"));
         SceneManager.LoadScene("Death Screen");
         gc.Destroy();
     }
     void onWin(Notification noti)
     {
-        SceneManager.LoadScene("AddName");
+        SceneManager.LoadScene("AddHighScore");
+        string temp = "YOUR SCORE$$" + gc.Kills + " ENEMIES ELIMINATED$" + gc.Coins + " COINS COLLECTED";
+        temp = temp.Replace('$', '\n');
+        GameObject.Find("/MenuCanvas/Score").GetComponent<TMPro.TextMeshProUGUI>().text = temp;
     }
-    void onNameSaved(Notification noti)
-    {
-        nc.PostNotification(new Notification("Menu"));
-    }
-
     void onNameBtnPressed(Notification Noti)
     {
-        string name = GameObject.Find("/MenuCanvas/InputField (TMP)/Text Area/Text").GetComponent<Text>().text;
+        string name = GameObject.FindGameObjectWithTag("Input").GetComponent<InputField>().text;
         if (name.Length > 0)
         {
-            highScores.Add(new HighScore(name, gc.Coins));
-
+            highScores.Add(new HighScore(name, gc.Coins, gc.Kills));
             XMLManager.instance.saveScores(highScores);
-
-            nc.PostNotification(new Notification("NameAdded"));
         }
+        else
+        {
+            highScores.Add(new HighScore(gc.Coins, gc.Kills));
+            XMLManager.instance.saveScores(highScores);
+        }
+        nc.PostNotification(new Notification("NameAdded"));
+        nc.PostNotification(new Notification("Menu"));
     }
     void goMenu(Notification noti)
-    {
-        
+    {     
         nc.PostNotification(new Notification("MenuActive"));
-        SceneManager.LoadScene("Menu");
-
-        
-        
+        SceneManager.LoadScene("Menu");     
         gc.Destroy();
     }
     private HighScore[] sortArray(HighScore [] arr)
@@ -249,14 +252,12 @@ public class LevelManager : MonoBehaviour
 
             foreach (HighScore hs in oldArray)
             {
-                if (hs.Score > best)
+                if (hs.Score+hs.Kills > best)
                 {
                     bestScore = hs;
-                    best = hs.Score;
-                    
+                    best = hs.Score+hs.Kills;                    
                 }
             }
-
             List<HighScore> tempo = new List<HighScore>(oldArray);
             tempo.Remove(bestScore);
             oldArray = tempo.ToArray();
@@ -267,18 +268,12 @@ public class LevelManager : MonoBehaviour
     }
     void lessLife(Notification noti)
     {
-
         hearts = new GameObject[3];
         for (int i = 1; i < 4; i++)
         {
             GameObject temp = GameObject.Find("Heart" + i);
-
-
             hearts[i - 1] = temp;
-
-
         }
-
         switch (gc.LivesLeft)
         {
             case 2:
@@ -292,6 +287,5 @@ public class LevelManager : MonoBehaviour
         _wimper.Play();
         _breath.Play();
     }
-
 
 }
