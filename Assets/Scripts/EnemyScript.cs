@@ -12,6 +12,7 @@ public class EnemyScript : MonoBehaviour
     public float mMovementSpeed = 3.0f;
     private bool bIsGoingRight = true;
     private Animator anim;
+    private float hitTime = 0.0f;
 
     private SpriteRenderer _mSpriteRenderer;
     // Start is called before the first frame update
@@ -27,9 +28,9 @@ public class EnemyScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        float current = Time.time;
 
-        if (! anim.GetCurrentAnimatorStateInfo(0).IsName("Die")&& !anim.GetCurrentAnimatorStateInfo(0).IsName("Hit"))
+        if (! anim.GetCurrentAnimatorStateInfo(0).IsName("Die") && hitTime == 0.0f)
         {
             anim.Play("Walk");
 
@@ -47,6 +48,9 @@ public class EnemyScript : MonoBehaviour
                 bIsGoingRight = true;
                 _mSpriteRenderer.flipX = bIsGoingRight;
             }
+        }else if(hitTime != 0.0f && current - hitTime>0.5f && !anim.GetCurrentAnimatorStateInfo(0).IsName("Die"))
+        {
+            hitTime = 0.0f;
         }
 
 
@@ -57,6 +61,7 @@ public class EnemyScript : MonoBehaviour
         if (other.gameObject.CompareTag("Player")&&! anim.GetCurrentAnimatorStateInfo(0).IsName("Die"))
         {
             anim.Play("Hit");
+            hitTime = Time.time;
         }
     }
 }

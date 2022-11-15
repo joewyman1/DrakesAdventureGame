@@ -68,7 +68,7 @@ public class PlayerMovment : MonoBehaviour
         player.transform.position = new Vector3(spawn.position.x, spawn.position.y, player.transform.position.z);
 
         ballPopup = GameObject.FindGameObjectWithTag("HUD").transform.Find("BallPopup").gameObject;
-ballIcon = GameObject.FindGameObjectWithTag("ballIcon");
+        ballIcon = GameObject.FindGameObjectWithTag("ballIcon");
 
         ballIcon.SetActive(false);
         coinIcon = GameObject.FindGameObjectWithTag("coinIcon");
@@ -81,7 +81,7 @@ ballIcon = GameObject.FindGameObjectWithTag("ballIcon");
         nc.AddObserver("EnemyKilled", onEnemyKilled);
         nc.AddObserver("isDying", onDie);
         nc.AddObserver("isDead", onDead);
-        nc.AddObserver("Start", onResume);
+        nc.AddObserver("Resume", onResume);
         nc.AddObserver("MenuActive", onPause);
         nc.AddObserver("isDead", onDead);
     }
@@ -93,7 +93,7 @@ ballIcon = GameObject.FindGameObjectWithTag("ballIcon");
         nc.RemoveObserver("EnemyKilled", onEnemyKilled);
         nc.RemoveObserver("isDying", onDie);
         nc.RemoveObserver("isDead", onDead);
-        nc.RemoveObserver("Start", onResume);
+        nc.RemoveObserver("Resume", onResume);
         nc.RemoveObserver("MenuActive", onPause);
 
     }
@@ -174,18 +174,12 @@ ballIcon = GameObject.FindGameObjectWithTag("ballIcon");
             {
                 invincible = true;
             }
-            if (startPain != 0 && currentTime - startPain > 5.0f && currentTime - startPain < 1.0f)
+            if (startPain != 0 && currentTime - startPain > 0.5f && currentTime - startPain < 1.0f)
             {
                 GetComponent<SpriteRenderer>().color = new Color(1,1,1,1);
             }
-            else if (startPain != 0 && currentTime - startPain > 1.0f && currentTime - startPain < 1.5f)
-            {
-                GetComponent<SpriteRenderer>().color = Color.red;
-            }
             else if (startPain != 0 && currentTime - startPain > 1.5f)
             {
-                GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
-
                 startPain = 0.0f;
                 invincible = false;
             }
@@ -292,12 +286,37 @@ ballIcon = GameObject.FindGameObjectWithTag("ballIcon");
     {
         ///On Enemy Killed
     }
-
-    private void OnCollisionEnter2D(Collision2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Ground"))
+        if (other.gameObject.CompareTag("Finish"))
         {
-            IsJumping = false;
+            if (_hasBall)
+            {
+                nc.PostNotification(new Notification("PlayerExit"));
+
+            }
+            else
+            {
+
+                nc.PostNotification(new Notification("PlayerCannotExit"));
+                ballPopup.SetActive(true);
+                startTime = Time.time;
+
+            }
+        }
+        else if (other.gameObject.CompareTag("Ball"))
+        {
+            _hasBall = true;
+            other.gameObject.SetActive(false);
+            ballIcon.SetActive(true);
+
+        }
+        else if (other.gameObject.CompareTag("Coin"))
+        {
+
+            nc.PostNotification(new Notification("Coin"));
+
+            other.gameObject.SetActive(false);
 
 
         }
@@ -324,6 +343,17 @@ ballIcon = GameObject.FindGameObjectWithTag("ballIcon");
 
 
         }
+    }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Ground"))
+        {
+            IsJumping = false;
+
+
+        }
+        
         else if (other.gameObject.CompareTag("Enemy") && !invincible && !other.otherRigidbody.gameObject.CompareTag("Projectile"))
         {
             if (dying != other.gameObject)
@@ -334,39 +364,9 @@ ballIcon = GameObject.FindGameObjectWithTag("ballIcon");
                 startPain = Time.time;
             }
         }
-        else if (other.gameObject.CompareTag("Finish"))
-        {
-            if (_hasBall)
-            {
-                nc.PostNotification(new Notification("PlayerExit"));
-
-            }
-            else
-            {
-
-                nc.PostNotification(new Notification("PlayerCannotExit"));
-                ballPopup.SetActive(true);
-                startTime = Time.time;
-
-            }
-
-        }
-        else if (other.gameObject.CompareTag("Ball"))
-        {
-            _hasBall = true;
-            other.gameObject.SetActive(false);
-            ballIcon.SetActive(true);
-
-        }
-        else if (other.gameObject.CompareTag("Coin"))
-        {
-
-            nc.PostNotification(new Notification("Coin"));
-
-            other.gameObject.SetActive(false);
-
-
-        }
+    
+  
+        
 
     }
 
