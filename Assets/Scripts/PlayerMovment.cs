@@ -29,8 +29,7 @@ public class PlayerMovment : MonoBehaviour
     public GameObject player;
     private bool notPlayingAnimation;
     private bool sleep, invincible;
-
-    private bool canBark, barking, sitting;
+    private bool canBark, barking, sitting, canPlay;
 
     private GameController gc;
     private NotificationCenter nc;
@@ -52,7 +51,7 @@ public class PlayerMovment : MonoBehaviour
         ///Health and lives setup 
         _health = gc.Lives;
         _hasBall = false;
-
+        canPlay = false;
         invincible = false;
         canBark = true;
         barking = false;
@@ -84,6 +83,7 @@ public class PlayerMovment : MonoBehaviour
         nc.AddObserver("Resume", onResume);
         nc.AddObserver("MenuActive", onPause);
         nc.AddObserver("isDead", onDead);
+        nc.AddObserver("CanMove", canMove);
     }
 
     void OnDisable()
@@ -95,7 +95,12 @@ public class PlayerMovment : MonoBehaviour
         nc.RemoveObserver("isDead", onDead);
         nc.RemoveObserver("Resume", onResume);
         nc.RemoveObserver("MenuActive", onPause);
+        nc.RemoveObserver("CanMove", canMove);
 
+    }
+    private void canMove(Notification n)
+    {
+        canPlay = true;
     }
     private void onPause(Notification n)
     {
@@ -199,7 +204,7 @@ public class PlayerMovment : MonoBehaviour
     }
     private void moveChar()
     {
-        if (!IsJumping)
+        if (!IsJumping && canPlay)
         {
             _move = Input.GetAxis("Horizontal");
             rb.velocity = new Vector2(Speed * _move, rb.velocity.y);
@@ -245,11 +250,11 @@ public class PlayerMovment : MonoBehaviour
 
         }
 
-        if (Input.GetButtonDown("Jump") && !IsJumping && !sleep)
+        if (Input.GetButtonDown("Jump") && !IsJumping && !sleep && canPlay)
         {
             rb.AddForce(new Vector2(rb.velocity.x, Jump));
         }
-        else if (Input.GetMouseButtonDown(0) && canBark && !sleep && !barking)
+        else if (Input.GetMouseButtonDown(0) && canBark && !sleep && !barking && canPlay)
         {
             barking = true;
             anim.Play("Base Layer.Bark_Stand");
@@ -268,7 +273,7 @@ public class PlayerMovment : MonoBehaviour
         ballIcon = GameObject.FindGameObjectWithTag("ballIcon");
         coinIcon = GameObject.FindGameObjectWithTag("coinIcon");
 
-
+        canPlay = false;
 
         ballIcon.SetActive(false);
         ballPopup = GameObject.FindGameObjectWithTag("HUD").transform.Find("BallPopup").gameObject;
@@ -338,6 +343,7 @@ public class PlayerMovment : MonoBehaviour
             {
                 gc.LessLife(1);
                 GetComponent<SpriteRenderer>().color = Color.red;
+                startPain = Time.time;
             }
 
 
