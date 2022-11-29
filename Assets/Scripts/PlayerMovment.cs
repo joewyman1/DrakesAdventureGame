@@ -117,18 +117,10 @@ public class PlayerMovment : MonoBehaviour
         checkHealth();
     }
 
-    void Flip()
-    {
-        Vector3 currentScale = gameObject.transform.localScale;
-        currentScale.x *= -1;
-        gameObject.transform.localScale = currentScale;
-
-
-    }
     private void onDie(Notification n)
     {
         dying = (GameObject)n.Object;
-        
+
     }
     private void onDead(Notification n)
     {
@@ -160,7 +152,7 @@ public class PlayerMovment : MonoBehaviour
                 barking = false;
                 canBark = true;
             }
-           
+
             if (startIdle != 0.0f && currentTime - startIdle > 6.0f)
             {
 
@@ -181,7 +173,7 @@ public class PlayerMovment : MonoBehaviour
             }
             if (startPain != 0 && currentTime - startPain > 0.5f && currentTime - startPain < 1.0f)
             {
-                GetComponent<SpriteRenderer>().color = new Color(1,1,1,1);
+                GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
             }
             else if (startPain != 0 && currentTime - startPain > 1.5f)
             {
@@ -237,24 +229,24 @@ public class PlayerMovment : MonoBehaviour
         }
 
         float mvm = Input.GetAxisRaw("Horizontal");
-        if (mvm < 0)
+        if (mvm < 0 && canPlay && !sitting && !sleep)
         {
 
             GetComponent<SpriteRenderer>().flipX = true;
 
         }
-        else if (mvm > 0)
+        else if (mvm > 0 && canPlay && !sitting && !sleep)
         {
 
             GetComponent<SpriteRenderer>().flipX = false;
 
         }
 
-        if (Input.GetButtonDown("Jump") && !IsJumping && !sleep && canPlay)
+        if (Input.GetButtonDown("Jump") && !IsJumping && !sleep && canPlay && !sitting)
         {
             rb.AddForce(new Vector2(rb.velocity.x, Jump));
         }
-        else if (Input.GetMouseButtonDown(0) && canBark && !sleep && !barking && canPlay)
+        else if (Input.GetMouseButtonDown(0) && canBark && !sleep && !barking && canPlay && !sitting)
         {
             barking = true;
             anim.Play("Base Layer.Bark_Stand");
@@ -359,7 +351,7 @@ public class PlayerMovment : MonoBehaviour
 
 
         }
-        
+
         else if (other.gameObject.CompareTag("Enemy") && !invincible && !other.otherRigidbody.gameObject.CompareTag("Projectile"))
         {
             if (dying != other.gameObject)
@@ -370,9 +362,9 @@ public class PlayerMovment : MonoBehaviour
                 startPain = Time.time;
             }
         }
-    
-  
-        
+
+
+
 
     }
 

@@ -40,7 +40,7 @@ public class Pause : MonoBehaviour
 
     public void quit()
     {
-        Application.Quit();
+        nc.PostNotification(new Notification("Menu"));
     }
 
     public void resume()

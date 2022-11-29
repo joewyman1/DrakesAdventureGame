@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Menu.unity
+    path: Assets/Scenes/Begining/Menu.unity
     guid: e227dc75e0ef32349aaf0a4d58b5e56c
   - enabled: 1
     path: Assets/Scenes/Event Scenes/AddHighScore.unity
@@ -32,4 +32,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Levels/Level 5.unity
     guid: 1d5b24951e5338043b76d831fb000283
+  - enabled: 1
+    path: Assets/Scenes/Begining/Instructions.unity
+    guid: 4ffe6825519bbdd46b63707689bcbfce
   m_configObjects: {}

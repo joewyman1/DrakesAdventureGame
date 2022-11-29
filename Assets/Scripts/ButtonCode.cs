@@ -22,6 +22,11 @@ public class ButtonCode : MonoBehaviour
 
         NotificationCenter.Instance.PostNotification(new Notification("Start"));
     }
+    public void GoToInstructions()
+    {
+        NotificationCenter.Instance.PostNotification(new Notification("Instructions"));
+
+    }
     public void Quit()
     {
 

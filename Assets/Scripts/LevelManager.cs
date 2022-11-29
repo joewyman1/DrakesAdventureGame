@@ -47,6 +47,7 @@ public class LevelManager : MonoBehaviour
         nc.AddObserver("EnemyKilled", enemyKilled);
         nc.AddObserver("RestartLevel", onRestartLevel);
         nc.AddObserver("Bark", onBark);
+        nc.AddObserver("Instructions", instructions);
 
 
 
@@ -65,6 +66,7 @@ public class LevelManager : MonoBehaviour
         nc.RemoveObserver("EnemyKilled", enemyKilled);
         nc.RemoveObserver("RestartLevel", onRestartLevel);
         nc.RemoveObserver("Bark", onBark);
+        nc.RemoveObserver("Instructions", instructions);
 
 
     }
@@ -186,18 +188,23 @@ public class LevelManager : MonoBehaviour
 
     void onExit(Notification noti)
     {
-        if (SceneManager.sceneCountInBuildSettings - 4 > gc.Level)
+       
+        if (SceneManager.sceneCountInBuildSettings - 5 > gc.Level)
         {
             SceneManager.LoadScene("Level " + (gc.NewLevel));
             coinIcon = GameObject.FindGameObjectWithTag("coinIcon");
             coinCount = coinIcon.transform.GetChild(0).gameObject.GetComponent<Text>();
         }
-        else if (SceneManager.sceneCountInBuildSettings - 4 == gc.Level)
+        else if (SceneManager.sceneCountInBuildSettings - 5 == gc.Level)
         {
             nc.PostNotification(new Notification("Win"));
         }
     }
-   
+    void instructions(Notification n)
+    {
+        gc = GameController.Instance;
+        SceneManager.LoadScene("Instructions");
+    }
     void onStart(Notification noti)
     {
         gc = GameController.Instance;
